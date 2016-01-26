@@ -5674,8 +5674,8 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <part name="D1" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-PMEG4005EJ" value="DB2J20900L"/>
 <part name="GUITAR" library="SparkFun-Connectors" deviceset="M02" device="LOCK" value="M02LOCK"/>
 <part name="R13" library="SparkFun-Resistors" deviceset="RESISTOR" device="0603" value="1M"/>
-<part name="R17" library="SparkFun-Resistors" deviceset="RESISTOR" device="0603" value="1M"/>
-<part name="R16" library="SparkFun-Resistors" deviceset="RESISTOR" device="0603" value="1M"/>
+<part name="R17" library="SparkFun-Resistors" deviceset="RESISTOR" device="0603" value="100k"/>
+<part name="R16" library="SparkFun-Resistors" deviceset="RESISTOR" device="0603" value="100k"/>
 <part name="KNOB" library="SparkFun-Connectors" deviceset="M04" device="LOCK"/>
 <part name="GND17" library="SparkFun" deviceset="GND" device=""/>
 <part name="U1" library="Parts" deviceset="DSPIC33EPXXXMC202/502" device="/PT"/>
@@ -5727,7 +5727,7 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <part name="CHN" library="SparkFun-Passives" deviceset="TEST-POINT" device="3"/>
 <part name="P+7" library="SparkFun" deviceset="3.3V" device=""/>
 <part name="SH1" library="Parts" deviceset="SHORT" device=""/>
-<part name="C12" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="15p"/>
+<part name="C12" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="470p"/>
 </parts>
 <sheets>
 <sheet>
