@@ -1,0 +1,18 @@
+INCLUDE p33EP256MC202.gld
+
+SECTIONS {
+  .commands : {
+   . = ALIGN(0x10);
+    __commands_start = .;
+    KEEP(*shell.o(.commands));
+    KEEP(*(.commands));
+    __commands_end = .;
+  } >program
+
+  .modules : {
+   . = ALIGN(0x10);
+    __modules_start = .;
+    KEEP(*(.modules));
+    __modules_end = .;
+  } >program
+}

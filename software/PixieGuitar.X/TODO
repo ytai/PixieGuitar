@@ -1,0 +1,34 @@
+Validation:
+V Test H/W SPI for display w/ modified pins.
+V Test guitar & vbat analog in.
+V Prove analog concept with PTG.
+V Power enable.
+V Prove power up concept.
+V Power good.
+V IMU.
+V Encoder.
+
+Implementation:
+V LCD driver is horrible. Rewrite.
+V Use DMA for SPI.
+V Expose screen brightness API.
+V Console UART spin-locks. Use IRQ.
+V Same for I2C.
+- Replace font?
+- Go over TODOs in the code.
+V Instrument runtime.
+V Get rid of printing functions in FreeRTOS (configUSE_STATS_FORMATTING_FUNCTIONS).
+- Watchdog.
+- Avoid spinlocks in LCD driver.
+V Clean-up LCD driver (function names, more elegant init).
+- Runtime stats inaccurate (result in more than 100%). Also, they overflow.
+- Clean-up FreeRTOS port (including interrupt macros).
+- Context switching IRQ must be fully implemented in ASM and call a user C
+  function. Otherwise, the compiler might possibly do funny stuff with the frame
+  pointer. For the time being, it is disabled by a build flag.
+
+Document:
+- Use of DMA.
+- Use of PTG.
+- Use of QEI.
+- FreeRTOS port.
