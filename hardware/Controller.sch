@@ -6645,9 +6645,9 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <label x="276.86" y="218.44" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="152.4" y1="45.72" x2="172.72" y2="45.72" width="0.1524" layer="91"/>
-<label x="172.72" y="45.72" size="1.778" layer="95" rot="MR0"/>
-<pinref part="U1" gate="G$1" pin="TDI/RP43/PWM3L/RB11"/>
+<label x="172.72" y="40.64" size="1.778" layer="95" rot="MR0"/>
+<wire x1="152.4" y1="40.64" x2="172.72" y2="40.64" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="RPI45/PWM2L/CTPLS/RB13"/>
 </segment>
 </net>
 <net name="TFT_A0\" class="0">
@@ -6657,9 +6657,9 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <label x="276.86" y="213.36" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="152.4" y1="43.18" x2="172.72" y2="43.18" width="0.1524" layer="91"/>
-<label x="172.72" y="43.18" size="1.778" layer="95" rot="MR0"/>
-<pinref part="U1" gate="G$1" pin="RPI44/PWM2H/RB12"/>
+<label x="172.72" y="38.1" size="1.778" layer="95" rot="MR0"/>
+<wire x1="152.4" y1="38.1" x2="172.72" y2="38.1" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="RPI46/PWM1H/T3CK/RB14"/>
 </segment>
 </net>
 <net name="TFT_SDA" class="0">
@@ -6669,9 +6669,9 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <label x="276.86" y="208.28" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="152.4" y1="40.64" x2="172.72" y2="40.64" width="0.1524" layer="91"/>
-<label x="172.72" y="40.64" size="1.778" layer="95" rot="MR0"/>
-<pinref part="U1" gate="G$1" pin="RPI45/PWM2L/CTPLS/RB13"/>
+<label x="172.72" y="48.26" size="1.778" layer="95" rot="MR0"/>
+<wire x1="152.4" y1="48.26" x2="172.72" y2="48.26" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="TDO/RP42/PWM3H/RB10"/>
 </segment>
 </net>
 <net name="TFT_SCK" class="0">
@@ -6681,9 +6681,9 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <label x="276.86" y="203.2" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="152.4" y1="38.1" x2="172.72" y2="38.1" width="0.1524" layer="91"/>
-<label x="172.72" y="38.1" size="1.778" layer="95" rot="MR0"/>
-<pinref part="U1" gate="G$1" pin="RPI46/PWM1H/T3CK/RB14"/>
+<label x="172.72" y="45.72" size="1.778" layer="95" rot="MR0"/>
+<wire x1="152.4" y1="45.72" x2="172.72" y2="45.72" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="TDI/RP43/PWM3L/RB11"/>
 </segment>
 </net>
 <net name="N$12" class="0">
@@ -6714,9 +6714,9 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <label x="276.86" y="223.52" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="152.4" y1="48.26" x2="172.72" y2="48.26" width="0.1524" layer="91"/>
-<label x="172.72" y="48.26" size="1.778" layer="95" rot="MR0"/>
-<pinref part="U1" gate="G$1" pin="TDO/RP42/PWM3H/RB10"/>
+<label x="172.72" y="43.18" size="1.778" layer="95" rot="MR0"/>
+<wire x1="152.4" y1="43.18" x2="172.72" y2="43.18" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="RPI44/PWM2H/RB12"/>
 </segment>
 </net>
 <net name="N$13" class="0">
