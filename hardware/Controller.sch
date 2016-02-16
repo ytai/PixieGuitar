@@ -5655,10 +5655,8 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <part name="C8" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="1u"/>
 <part name="C11" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="1u"/>
 <part name="C9" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="1u"/>
-<part name="R18" library="SparkFun-Resistors" deviceset="RESISTOR" device="0603" value="10k"/>
 <part name="R19" library="SparkFun-Resistors" deviceset="RESISTOR" device="0603" value="10k"/>
 <part name="R21" library="SparkFun-Resistors" deviceset="RESISTOR" device="0603" value="10k"/>
-<part name="P+12" library="SparkFun" deviceset="3.3V" device=""/>
 <part name="P+13" library="SparkFun" deviceset="3.3V" device=""/>
 <part name="P+14" library="SparkFun" deviceset="3.3V" device=""/>
 <part name="U2" library="Parts" deviceset="MIC5365" device="YC5"/>
@@ -5811,10 +5809,8 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <instance part="C8" gate="G$1" x="238.76" y="139.7"/>
 <instance part="C11" gate="G$1" x="274.32" y="139.7"/>
 <instance part="C9" gate="G$1" x="246.38" y="111.76" rot="R90"/>
-<instance part="R18" gate="G$1" x="419.1" y="226.06" rot="R270"/>
 <instance part="R19" gate="G$1" x="426.72" y="226.06" rot="R270"/>
 <instance part="R21" gate="G$1" x="434.34" y="226.06" rot="R270"/>
-<instance part="P+12" gate="G$1" x="419.1" y="231.14" rot="MR0"/>
 <instance part="P+13" gate="G$1" x="426.72" y="231.14" rot="MR0"/>
 <instance part="P+14" gate="G$1" x="434.34" y="231.14" rot="MR0"/>
 <instance part="U2" gate="G$1" x="185.42" y="238.76"/>
@@ -5961,10 +5957,6 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <pinref part="3.3V" gate="G$1" pin="1"/>
 <wire x1="195.58" y1="243.84" x2="200.66" y2="243.84" width="0.1524" layer="91"/>
 <junction x="195.58" y="243.84"/>
-</segment>
-<segment>
-<pinref part="R18" gate="G$1" pin="1"/>
-<pinref part="P+12" gate="G$1" pin="3.3V"/>
 </segment>
 <segment>
 <pinref part="R19" gate="G$1" pin="1"/>
@@ -6416,13 +6408,9 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 </net>
 <net name="!KNOB_PUSH" class="0">
 <segment>
-<wire x1="398.78" y1="213.36" x2="419.1" y2="213.36" width="0.1524" layer="91"/>
 <label x="398.78" y="213.36" size="1.778" layer="95"/>
 <pinref part="KNOB" gate="G$1" pin="2"/>
-<wire x1="419.1" y1="220.98" x2="419.1" y2="213.36" width="0.1524" layer="91"/>
-<wire x1="419.1" y1="213.36" x2="439.42" y2="213.36" width="0.1524" layer="91"/>
-<pinref part="R18" gate="G$1" pin="2"/>
-<junction x="419.1" y="213.36"/>
+<wire x1="398.78" y1="213.36" x2="439.42" y2="213.36" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <wire x1="58.42" y1="167.64" x2="76.2" y2="167.64" width="0.1524" layer="91"/>
