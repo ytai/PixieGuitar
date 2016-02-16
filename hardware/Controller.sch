@@ -5726,6 +5726,8 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <part name="P+7" library="SparkFun" deviceset="3.3V" device=""/>
 <part name="SH1" library="Parts" deviceset="SHORT" device=""/>
 <part name="C12" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="470p"/>
+<part name="R3" library="SparkFun-Resistors" deviceset="RESISTOR" device="0603" value="100k"/>
+<part name="R11" library="SparkFun-Resistors" deviceset="RESISTOR" device="0603" value="150k"/>
 </parts>
 <sheets>
 <sheet>
@@ -5847,11 +5849,11 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <instance part="GND17" gate="1" x="439.42" y="205.74" rot="MR0"/>
 <instance part="U1" gate="G$1" x="76.2" y="60.96"/>
 <instance part="R9" gate="G$1" x="71.12" y="233.68" smashed="yes" rot="R90">
-<attribute name="NAME" x="70.104" y="235.2294" size="1.778" layer="95" rot="R180"/>
+<attribute name="NAME" x="75.184" y="237.7694" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="72.644" y="233.68" size="1.778" layer="96"/>
 </instance>
 <instance part="R10" gate="G$1" x="71.12" y="218.44" smashed="yes" rot="R90">
-<attribute name="NAME" x="70.104" y="219.9894" size="1.778" layer="95" rot="R180"/>
+<attribute name="NAME" x="77.724" y="222.5294" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="72.644" y="218.44" size="1.778" layer="96"/>
 </instance>
 <instance part="GND9" gate="1" x="71.12" y="205.74" rot="MR0"/>
@@ -5920,6 +5922,14 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 </instance>
 <instance part="SH1" gate="G$1" x="152.4" y="162.56"/>
 <instance part="C12" gate="G$1" x="264.16" y="96.52" rot="R180"/>
+<instance part="R3" gate="G$1" x="63.5" y="231.14" smashed="yes" rot="R90">
+<attribute name="NAME" x="62.484" y="232.6894" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="57.404" y="228.6" size="1.778" layer="96"/>
+</instance>
+<instance part="R11" gate="G$1" x="63.5" y="215.9" smashed="yes" rot="R90">
+<attribute name="NAME" x="62.484" y="217.4494" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="57.404" y="213.36" size="1.778" layer="96"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -6056,6 +6066,8 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <wire x1="81.28" y1="213.36" x2="81.28" y2="210.82" width="0.1524" layer="91"/>
 <wire x1="81.28" y1="210.82" x2="71.12" y2="210.82" width="0.1524" layer="91"/>
 <junction x="71.12" y="210.82"/>
+<pinref part="R11" gate="G$1" pin="1"/>
+<wire x1="63.5" y1="210.82" x2="71.12" y2="210.82" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="C14" gate="G$1" pin="2"/>
@@ -6480,9 +6492,13 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <pinref part="U1" gate="G$1" pin="OSC2/CLKO/RA3"/>
 </segment>
 <segment>
-<wire x1="63.5" y1="238.76" x2="63.5" y2="233.68" width="0.1524" layer="91"/>
-<label x="63.5" y="233.68" size="1.778" layer="95" rot="R270"/>
-<pinref part="U7" gate="G$1" pin="PGOOD"/>
+<label x="53.34" y="223.52" size="1.778" layer="95" rot="R180"/>
+<wire x1="63.5" y1="223.52" x2="53.34" y2="223.52" width="0.1524" layer="91"/>
+<pinref part="R3" gate="G$1" pin="1"/>
+<pinref part="R11" gate="G$1" pin="2"/>
+<wire x1="63.5" y1="226.06" x2="63.5" y2="223.52" width="0.1524" layer="91"/>
+<junction x="63.5" y="223.52"/>
+<wire x1="63.5" y1="223.52" x2="63.5" y2="220.98" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VBAT_SENSE" class="0">
@@ -6743,6 +6759,13 @@ B340A  3A 40V SMA &lt;br&gt;</description>
 <segment>
 <pinref part="Q2" gate="G$1" pin="S"/>
 <pinref part="R23" gate="G$1" pin="2"/>
+</segment>
+</net>
+<net name="N$8" class="0">
+<segment>
+<pinref part="U7" gate="G$1" pin="PGOOD"/>
+<pinref part="R3" gate="G$1" pin="2"/>
+<wire x1="63.5" y1="238.76" x2="63.5" y2="236.22" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
