@@ -1,0 +1,5 @@
+- "BIASED" test-point.
+- TFT SPI pins are not SPI-capable. Remap according to S/W.
+- PGOOD is fed into a non-5V pin.
+- dpop r18
+
