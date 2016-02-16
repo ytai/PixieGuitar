@@ -128,10 +128,14 @@
 </layers>
 <board>
 <plain>
-<wire x1="0" y1="58.42" x2="38.1" y2="58.42" width="0.254" layer="20"/>
-<wire x1="38.1" y1="58.42" x2="38.1" y2="0" width="0.2032" layer="20"/>
-<wire x1="38.1" y1="0" x2="0" y2="0" width="0.2032" layer="20"/>
-<wire x1="0" y1="0" x2="0" y2="58.42" width="0.2032" layer="20"/>
+<wire x1="0" y1="1.27" x2="0" y2="57.15" width="0.2032" layer="20"/>
+<wire x1="0" y1="57.15" x2="1.27" y2="58.42" width="0.2032" layer="20" curve="-90"/>
+<wire x1="1.27" y1="58.42" x2="36.83" y2="58.42" width="0.2032" layer="20"/>
+<wire x1="36.83" y1="58.42" x2="38.1" y2="57.15" width="0.2032" layer="20" curve="-90"/>
+<wire x1="38.1" y1="57.15" x2="38.1" y2="1.27" width="0.2032" layer="20"/>
+<wire x1="38.1" y1="1.27" x2="36.83" y2="0" width="0.2032" layer="20" curve="-90"/>
+<wire x1="36.83" y1="0" x2="1.27" y2="0" width="0.2032" layer="20"/>
+<wire x1="1.27" y1="0" x2="0" y2="1.27" width="0.2032" layer="20" curve="-90"/>
 <wire x1="33.655" y1="8.5725" x2="35.8775" y2="8.5725" width="0.2032" layer="25"/>
 <text x="22.86" y="10.16" size="1.778" layer="26" ratio="14" rot="MR0">Pixie Guitar
 Controller
