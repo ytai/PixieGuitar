@@ -41,6 +41,8 @@
       <itemPath>gfx.h</itemPath>
       <itemPath>display.h</itemPath>
       <itemPath>imu.h</itemPath>
+      <itemPath>app.h</itemPath>
+      <itemPath>ticker.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -80,6 +82,8 @@
       <itemPath>gfx.c</itemPath>
       <itemPath>display.c</itemPath>
       <itemPath>imu.c</itemPath>
+      <itemPath>app.c</itemPath>
+      <itemPath>ticker.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

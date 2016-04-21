@@ -5,9 +5,10 @@
 #include <FreeRTOS.h>
 #include <task.h>
 
+#include "app.h"
 #include "chain.h"
 #include "clock.h"
-#include "gui_task.h"
+#include "demo_app.h"
 #include "i2c.h"
 #include "module.h"
 #include "power.h"
@@ -27,7 +28,7 @@ int main(int argc, char** argv) {
   ChainInit();
 
   ShellTaskInit();
-  GuiTaskInit();
+  AppTaskInit(DemoAppInit());
 
   vTaskStartScheduler();
 }
