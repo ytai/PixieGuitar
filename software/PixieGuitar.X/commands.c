@@ -75,6 +75,7 @@ static int TaskCommand(int argc, const char **argv) {
   while (count--) {
     char state = 'X';
     switch (task->eCurrentState) {
+      case eRunning:
       case eReady  :   state = 'R'; break;
       case eBlocked:   state = 'B'; break;
       case eSuspended: state = 'S'; break;
