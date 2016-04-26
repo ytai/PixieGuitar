@@ -13,6 +13,9 @@
 #include "module.h"
 #include "power.h"
 #include "shell_task.h"
+#include "test_menu_app.h"
+
+static TestMenuApp test_menu_app;
 
 int main(int argc, char** argv) {
   PowerOn();
@@ -28,7 +31,7 @@ int main(int argc, char** argv) {
   ChainInit();
 
   ShellTaskInit();
-  AppTaskInit(DemoAppInit());
+  AppTaskInit(TestMenuAppInit(&test_menu_app));
 
   vTaskStartScheduler();
 }

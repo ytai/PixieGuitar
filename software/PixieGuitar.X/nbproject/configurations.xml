@@ -36,13 +36,17 @@
       <itemPath>pin_util.h</itemPath>
       <itemPath>power.h</itemPath>
       <itemPath>analog.h</itemPath>
-      <itemPath>gui_task.h</itemPath>
       <itemPath>atomic.h</itemPath>
       <itemPath>gfx.h</itemPath>
       <itemPath>display.h</itemPath>
       <itemPath>imu.h</itemPath>
       <itemPath>app.h</itemPath>
       <itemPath>ticker.h</itemPath>
+      <itemPath>test_menu_app.h</itemPath>
+      <itemPath>text_widget.h</itemPath>
+      <itemPath>vertical_widget_list.h</itemPath>
+      <itemPath>widget.h</itemPath>
+      <itemPath>demo_app.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -78,12 +82,15 @@
       <itemPath>i2c.c</itemPath>
       <itemPath>power.c</itemPath>
       <itemPath>analog.c</itemPath>
-      <itemPath>gui_task.c</itemPath>
       <itemPath>gfx.c</itemPath>
       <itemPath>display.c</itemPath>
       <itemPath>imu.c</itemPath>
       <itemPath>app.c</itemPath>
       <itemPath>ticker.c</itemPath>
+      <itemPath>test_menu_app.c</itemPath>
+      <itemPath>demo_app.c</itemPath>
+      <itemPath>text_widget.c</itemPath>
+      <itemPath>vertical_widget_list.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

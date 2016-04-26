@@ -27,6 +27,14 @@ V Clean-up LCD driver (function names, more elegant init).
   function. Otherwise, the compiler might possibly do funny stuff with the frame
   pointer. For the time being, it is disabled by a build flag.
 
+- Filter Soc.
+- Centralized title bar handling.
+- OnReset() method to Widget.
+- Avoid explicit instance pointers in class structures.
+- Generic "Widget App"?
+- Fit to parent / fit to children sizing?
+- Application stack.
+
 Document:
 - Use of DMA.
 - Use of PTG.
