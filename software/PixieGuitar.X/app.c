@@ -50,6 +50,7 @@ static void UnmaskTick() {
 }
 
 static void ResumeApp() {
+  GfxFill(&gfx_full_screen, RGB565(0, 0, 0));
   if (active_app->OnResume) active_app->OnResume(active_app->instance);
 
   if (active_app->_flags & APP_EV_MASK_ACC) {
@@ -143,6 +144,7 @@ static void Tick(int16_t * audio_buffer) {
   }
 
   active_app->OnTick(active_app->instance,
+                     &gfx_full_screen,
                      audio_buffer,
                      acc,
                      knob_turn_delta,
@@ -177,7 +179,7 @@ static void AppTask(void * p) {
   KnobInit();
   ImuInit();
   DisplayInit();
-  GfxFillScreen(RGB565(0, 0, 0));
+  GfxFill(&gfx_full_screen, RGB565(0, 0, 0));
   DisplaySetBacklight(0xFFFF);
 
   for (;;) {

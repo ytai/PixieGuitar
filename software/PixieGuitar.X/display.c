@@ -77,7 +77,8 @@ static void ExpectReceive(size_t count) {
 static void WaitTransferComplete() {
   _DMA3IE = 1;
   while (!_DMA3IF) {
-    SemaphoreTake(event);
+    Error e = SemaphoreTake(event);
+    (void) e;
   }
   _DMA3IF = 0;
 }
@@ -385,6 +386,20 @@ void DisplayCopyRect(uint8_t x,
                      uint16_t const * data) {
   BeginWriteWindow(x, y, x+w-1, y+h-1);
   SpiWriteBuffer(data, w * h);
+  EndCommand();
+}
+
+void DisplayCopyRectFrag(uint8_t x,
+                         uint8_t y,
+                         uint8_t w,
+                         uint8_t h,
+                         uint8_t stride,
+                         uint16_t const * data) {
+  BeginWriteWindow(x, y, x+w-1, y+h-1);
+  for (uint8_t i = 0; i < h; ++i) {
+    SpiWriteBuffer(data, w);
+    data += stride;
+  }
   EndCommand();
 }
 

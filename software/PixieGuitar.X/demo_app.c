@@ -60,16 +60,13 @@ static uint16_t DemoAppOnStart(void * instance) {
          APP_EV_MASK_SOC;
 }
 
-static void DemoAppOnResume(void * instance) {
-  GfxFillScreen(RGB565(0, 0, 0));
-}
-
 static void DemoAppOnTick(void * instance,
-                         int16_t * audio_samples,
-                         int16_t acc[3],
-                         int8_t knob_turn_delta,
-                         int8_t knob_press_delta,
-                         uint8_t soc_percent) {
+                          GfxRect const * region,
+                          int16_t * audio_samples,
+                          int16_t acc[3],
+                          int8_t knob_turn_delta,
+                          int8_t knob_press_delta,
+                          uint8_t soc_percent) {
   DemoAppState * state = (DemoAppState *) instance;
   state->knob_turn += knob_turn_delta;
   state->knob_pressed = ((int) state->knob_pressed + knob_press_delta) > 0;
@@ -112,7 +109,8 @@ static void DemoAppOnTick(void * instance,
     DisplayFillRect(x, y, 128 - x, 1, RGB565(0x00, 0x00, 0x00));
   }
 
-  GfxDrawString(10,
+  GfxDrawString(region,
+                10,
                 1,
                 soc_str,
                 state->knob_pressed ? RGB565(0x00, 0xff, 0x00) : RGB565(0xff, 0xff, 0xff),
@@ -121,7 +119,7 @@ static void DemoAppOnTick(void * instance,
   unsigned x = ((acc[0] ^ 0x4000) >> 11) & 0xF;
   unsigned y = ((acc[1] ^ 0x4000) >> 11) & 0xF;
   area[y][x] = RGB565(0xff, 0x00, 0x00);
-  DisplayCopyRect(112, 0, 16, 16, area);
+  GfxCopy(region, 112, 0, 16, 16, &area[0][0]);
   area[y][x] = RGB565(0xff, 0xff, 0xff);
 }
 
@@ -135,7 +133,6 @@ App * DemoAppInit() {
   memset(&demo_app, 0, sizeof(demo_app));
   demo_app.instance = &demo_app_state;
   demo_app.OnStart = DemoAppOnStart;
-  demo_app.OnResume = DemoAppOnResume;
   demo_app.OnTick = DemoAppOnTick;
   return &demo_app;
 }

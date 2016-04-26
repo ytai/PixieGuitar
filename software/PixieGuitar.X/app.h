@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "gfx.h"
+
 #define APP_EV_MASK_AUDIO (1 << 0)
 #define APP_EV_MASK_ACC   (1 << 1)
 #define APP_EV_MASK_KNOB  (1 << 2)
@@ -25,6 +27,7 @@ typedef struct _App {
   void (*OnPause)(void * instance);
   void (*OnResume)(void * instance);
   void (*OnTick)(void * instance,
+                 GfxRect const * region,
                  int16_t * audio_samples,
                  int16_t acc[3],
                  int8_t knob_turn_delta,
