@@ -6,8 +6,8 @@
 
 typedef void (*AnalogCallback)(int16_t * audio);
 
-#define ANALOG_LOG2_BUFFER_LEN 10
-#define ANALOG_BUFFER_LEN (1 << (ANALOG_LOG2_BUFFER_LEN))
+#define ANALOG_LOG2_BUFFER_LEN 10u
+#define ANALOG_BUFFER_LEN (1u << (ANALOG_LOG2_BUFFER_LEN))
 
 void AnalogInit();
 void AnalogStart(AnalogCallback callback);

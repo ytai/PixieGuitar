@@ -15,7 +15,7 @@ void TickerStart(TickerCallback callback) {
   // Therefore, assuming our system clock is running at 70MHz, and we use a 1:64
   // prescaler, our period becomes:
   // (70MHz * ANALOG_BUFFER_LEN / 64 / 20kHz) = 3500 * (ANALOG_BUFFER_LEN / 64).
-  PR2 = 3500 * (ANALOG_BUFFER_LEN / 64);
+  PR2 = 3500u * (ANALOG_BUFFER_LEN / 64u);
   TMR2 = 0;
   _T2IP = configKERNEL_INTERRUPT_PRIORITY;
   _T2IE = 1;
