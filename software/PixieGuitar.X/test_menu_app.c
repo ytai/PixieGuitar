@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "display.h"
+#include "demo_app.h"
 
 static uint16_t WidgetAppOnStart(void * instance) {
   assert(instance);
@@ -50,10 +51,12 @@ App * WidgetAppInit(WidgetApp * instance, Widget * widget) {
 App * TestMenuAppInit(TestMenuApp * instance) {
   assert(instance);
 
-  TextWidgetInit(&instance->text1, "First choice");
-  TextWidgetInit(&instance->text2, "Second choice");
-  TextWidgetInit(&instance->text3, "Third choice");
-  TextWidgetInit(&instance->text4, "Fourth choice");
+  instance->launch_cmd = AppCommandPush(DemoAppInit());
+
+  TextWidgetInit(&instance->text1, "First choice", NULL);
+  TextWidgetInit(&instance->text2, "Second choice", NULL);
+  TextWidgetInit(&instance->text3, "Launch App", &instance->launch_cmd);
+  TextWidgetInit(&instance->text4, "Fourth choice", NULL);
 
   instance->texts[0] = &instance->text1.widget;
   instance->texts[1] = &instance->text2.widget;

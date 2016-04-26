@@ -24,10 +24,17 @@ static bool TextWidgetOnTick(void * instance,
     GfxDrawString(region, 1, 1, me->_str, fg_color, bg_color);
     me->_last_drawn_state = state;
   }
-  return knob_press_delta < 0;
+
+  bool released = knob_press_delta < 0;
+  if (released && me->_cmd) {
+    AppPostCommand(*me->_cmd);
+  }
+  return released;
 }
 
-void TextWidgetInit(TextWidget * instance, char const * str) {
+void TextWidgetInit(TextWidget * instance,
+                    char const * str,
+                    AppCommand const * cmd) {
   assert(instance);
   assert(str);
 
@@ -39,4 +46,5 @@ void TextWidgetInit(TextWidget * instance, char const * str) {
   instance->widget.OnTick = TextWidgetOnTick;
 
   instance->_str = str;
+  instance->_cmd = cmd;
 }

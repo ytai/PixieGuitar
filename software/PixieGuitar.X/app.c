@@ -41,7 +41,7 @@ static void TickerEvent() {
 static void MaskTick() {
   ++tick_mask_count;
   AppCommand cmd = { CMD_UNMASK_TICK };
-  NONBLOCKING() AppPostCommand(&cmd);
+  NONBLOCKING() AppPostCommand(cmd);
 }
 
 static void UnmaskTick() {
@@ -173,7 +173,6 @@ static void ProcessPendingCommand() {
 
 static void AppTask(void * p) {
   App * main_app = (App *) p;
-  if (main_app) AppPush(p);
 
   AnalogInit();
   KnobInit();
@@ -181,6 +180,8 @@ static void AppTask(void * p) {
   DisplayInit();
   GfxFill(&gfx_full_screen, RGB565(0, 0, 0));
   DisplaySetBacklight(0xFFFF);
+
+  if (main_app) AppPostCommand(AppCommandPush(main_app));
 
   for (;;) {
     ProcessPendingCommand();
@@ -194,24 +195,24 @@ void AppTaskInit(App * main_app) {
   assert(app_task);
 }
 
-void AppSwitch(App * app) {
+AppCommand AppCommandSwitch(App * app) {
   assert(app);
   AppCommand cmd = { CMD_SWITCH_APP, (uint16_t) app };
-  AppPostCommand(&cmd);
+  return cmd;
 }
 
-void AppPush(App * app) {
+AppCommand AppCommandPush(App * app) {
   assert(app);
   AppCommand cmd = { CMD_PUSH_APP, (uint16_t) app };
-  AppPostCommand(&cmd);
+  return cmd;
 }
 
-void AppPop() {
+AppCommand AppCommandPop() {
   AppCommand cmd = { CMD_POP_APP };
-  AppPostCommand(&cmd);
+  return cmd;
 }
 
-void AppPostCommand(AppCommand const * cmd) {
-  Error e = QueuePushBack(command_queue, cmd);
+void AppPostCommand(AppCommand cmd) {
+  Error e = QueuePushBack(command_queue, &cmd);
   assert(e == ERROR_NONE);
 }

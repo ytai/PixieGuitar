@@ -47,7 +47,7 @@ typedef struct {
 
 static uint16_t DemoAppOnStart(void * instance) {
   DemoAppState * state = (DemoAppState *) instance;
-  state->knob_turn = 0;
+  state->knob_turn = 1;
   state->knob_pressed = false;
 
   for (unsigned i = 0; i < 16; ++i)
@@ -70,6 +70,8 @@ static void DemoAppOnTick(void * instance,
   DemoAppState * state = (DemoAppState *) instance;
   state->knob_turn += knob_turn_delta;
   state->knob_pressed = ((int) state->knob_pressed + knob_press_delta) > 0;
+
+  if (knob_press_delta < 0) AppPostCommand(AppCommandPop());
 
   char soc_str[15];
   snprintf(soc_str, sizeof(soc_str), "SoC=%3d%% P=%03d", soc_percent, state->knob_turn);

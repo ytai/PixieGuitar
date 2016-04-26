@@ -42,10 +42,11 @@ typedef struct _App {
 
 void AppTaskInit(App * main_app);
 
-void AppSwitch(App * app);
-void AppPush(App * app);
-void AppPop();
-void AppPostCommand(AppCommand const * cmd);
+AppCommand AppCommandSwitch(App * app);
+AppCommand AppCommandPush(App * app);
+AppCommand AppCommandPop();
+
+void AppPostCommand(AppCommand cmd);
 
 #endif  // APP_H
 

@@ -16,6 +16,7 @@ App * WidgetAppInit(WidgetApp * instance, Widget * widget);
 typedef struct {
   WidgetApp app;
 
+  AppCommand launch_cmd;
   VerticalWidgetList list;
   TextWidget text1;
   TextWidget text2;
