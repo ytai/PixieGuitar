@@ -10,6 +10,10 @@ typedef struct {
 
   // private
   char const * _str;
+  uint16_t _color_bg_inactive;
+  uint16_t _color_bg_active;
+  uint16_t _color_fg_inactive;
+  uint16_t _color_fg_active;
   AppCommand const * _cmd;
   WidgetState _last_drawn_state;
 } TextWidget;
@@ -18,6 +22,10 @@ void TextWidgetInit(TextWidget * instance,
                     char const * str,
                     unsigned width,
                     unsigned height,
+                    uint16_t color_bg_inactive,
+                    uint16_t color_bg_active,
+                    uint16_t color_fg_inactive,
+                    uint16_t color_fg_active,
                     AppCommand const * cmd);
 
 #endif  // TEXT_WIDGET_H

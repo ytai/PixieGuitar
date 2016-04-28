@@ -16,8 +16,8 @@ static bool TextWidgetOnTick(void * instance,
   bool highlighted = state != WIDGET_INACTIVE;
   bool active = state == WIDGET_ACTIVE;
 
-  uint16_t fg_color = active ? RGB(0xFF, 0xFF, 0xFF) : RGB(0x80, 0x80, 0x80);
-  uint16_t bg_color = highlighted ? RGB(0x00, 0x00, 0x80) : RGB(0, 0, 0);
+  uint16_t fg_color = active ? me->_color_fg_active : me->_color_fg_inactive;
+  uint16_t bg_color = highlighted ? me->_color_bg_active : me->_color_bg_inactive;
 
   if (force_draw || state != me->_last_drawn_state) {
     GfxFill(region, bg_color);
@@ -41,6 +41,10 @@ void TextWidgetInit(TextWidget * instance,
                     char const * str,
                     unsigned width,
                     unsigned height,
+                    uint16_t color_bg_inactive,
+                    uint16_t color_bg_active,
+                    uint16_t color_fg_inactive,
+                    uint16_t color_fg_active,
                     AppCommand const * cmd) {
   assert(instance);
   assert(str);
@@ -51,5 +55,9 @@ void TextWidgetInit(TextWidget * instance,
   instance->widget.OnTick = TextWidgetOnTick;
 
   instance->_str = str;
+  instance->_color_bg_inactive = color_bg_inactive;
+  instance->_color_bg_active = color_bg_active;
+  instance->_color_fg_inactive = color_fg_inactive;
+  instance->_color_fg_active = color_fg_active;
   instance->_cmd = cmd;
 }

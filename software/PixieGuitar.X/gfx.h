@@ -62,6 +62,8 @@ void GfxDrawChar(GfxRect const * region,
                  uint16_t fg_color,
                  uint16_t bg_color);
 
+uint16_t GfxHsv(uint16_t h, uint8_t s, uint8_t v);
+
 
 #endif  // GFX_H
 

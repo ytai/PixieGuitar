@@ -18,11 +18,8 @@ typedef struct {
 
   AppCommand launch_cmd;
   VerticalWidgetList list;
-  TextWidget text1;
-  TextWidget text2;
-  TextWidget text3;
-  TextWidget text4;
-  Widget * texts[4];
+  TextWidget texts[8];
+  Widget * textp[8];
 } TestMenuApp;
 
 App * TestMenuAppInit(TestMenuApp * instance);

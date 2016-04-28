@@ -53,16 +53,35 @@ App * TestMenuAppInit(TestMenuApp * instance) {
 
   instance->launch_cmd = AppCommandPush(DemoAppInit());
 
-  TextWidgetInit(&instance->text1, "First choice", 128, 16, NULL);
-  TextWidgetInit(&instance->text2, "Second choice", 128, 16, NULL);
-  TextWidgetInit(&instance->text3, "Launch App", 128, 16, &instance->launch_cmd);
-  TextWidgetInit(&instance->text4, "Fourth choice", 128, 16, NULL);
+#define WHITE RGB(0xFF, 0xFF, 0xFF)
+#define GRAY  RGB(0x80, 0x80, 0x80)
 
-  instance->texts[0] = &instance->text1.widget;
-  instance->texts[1] = &instance->text2.widget;
-  instance->texts[2] = &instance->text3.widget;
-  instance->texts[3] = &instance->text4.widget;
-  VerticalWidgetListInit(&instance->list, instance->texts, 4);
+  char const * const strings[] = {
+    "First choice",
+    "Second choice",
+    "Launch App",
+    "Fourth choice",
+    "Fifth choice",
+    "Sixth choice",
+    "Seventh choice",
+    "Eighth choice",
+  };
+
+  for (size_t i = 0; i < 8; ++i) {
+    uint16_t h = 1535 * i / 8;
+    TextWidgetInit(&instance->texts[i],
+                   strings[i],
+                   128,
+                   16,
+                   GfxHsv(h, 0x80, 0x30),
+                   GfxHsv(h, 0xFF, 0x80),
+                   GRAY,
+                   WHITE,
+                   i == 2 ? &instance->launch_cmd : NULL);
+    instance->textp[i] = &instance->texts[i].widget;
+  }
+
+  VerticalWidgetListInit(&instance->list, instance->textp, 8);
 
   return WidgetAppInit(&instance->app, &instance->list.widget);
 }
