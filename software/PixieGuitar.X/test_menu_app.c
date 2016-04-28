@@ -53,10 +53,10 @@ App * TestMenuAppInit(TestMenuApp * instance) {
 
   instance->launch_cmd = AppCommandPush(DemoAppInit());
 
-  TextWidgetInit(&instance->text1, "First choice", NULL);
-  TextWidgetInit(&instance->text2, "Second choice", NULL);
-  TextWidgetInit(&instance->text3, "Launch App", &instance->launch_cmd);
-  TextWidgetInit(&instance->text4, "Fourth choice", NULL);
+  TextWidgetInit(&instance->text1, "First choice", 128, 16, NULL);
+  TextWidgetInit(&instance->text2, "Second choice", 128, 16, NULL);
+  TextWidgetInit(&instance->text3, "Launch App", 128, 16, &instance->launch_cmd);
+  TextWidgetInit(&instance->text4, "Fourth choice", 128, 16, NULL);
 
   instance->texts[0] = &instance->text1.widget;
   instance->texts[1] = &instance->text2.widget;

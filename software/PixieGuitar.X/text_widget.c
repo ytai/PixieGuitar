@@ -21,7 +21,12 @@ static bool TextWidgetOnTick(void * instance,
 
   if (force_draw || state != me->_last_drawn_state) {
     GfxFill(region, bg_color);
-    GfxDrawString(region, 1, 1, me->_str, fg_color, bg_color);
+    GfxDrawString(region,
+                  1,
+                  me->widget.height / 2 - 4,
+                  me->_str,
+                  fg_color,
+                  bg_color);
     me->_last_drawn_state = state;
   }
 
@@ -34,14 +39,14 @@ static bool TextWidgetOnTick(void * instance,
 
 void TextWidgetInit(TextWidget * instance,
                     char const * str,
+                    unsigned width,
+                    unsigned height,
                     AppCommand const * cmd) {
   assert(instance);
   assert(str);
 
-  size_t len = strlen(str);
-
-  instance->widget.height = 10;
-  instance->widget.width = len * 6 + 1;
+  instance->widget.height = height;
+  instance->widget.width = width;
   instance->widget.instance = instance;
   instance->widget.OnTick = TextWidgetOnTick;
 

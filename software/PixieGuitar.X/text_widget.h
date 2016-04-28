@@ -16,6 +16,8 @@ typedef struct {
 
 void TextWidgetInit(TextWidget * instance,
                     char const * str,
+                    unsigned width,
+                    unsigned height,
                     AppCommand const * cmd);
 
 #endif  // TEXT_WIDGET_H
