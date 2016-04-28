@@ -52,7 +52,7 @@ static uint16_t DemoAppOnStart(void * instance) {
 
   for (unsigned i = 0; i < 16; ++i)
     for (unsigned j = 0; j < 16; ++j)
-      area[i][j] = RGB565(0xff, 0xff, 0xff);
+      area[i][j] = RGB(0xff, 0xff, 0xff);
 
   return APP_EV_MASK_ACC   |
          APP_EV_MASK_AUDIO |
@@ -107,22 +107,22 @@ static void DemoAppOnTick(void * instance,
 //          line[x] = 0;
     uint8_t x = sample * state->knob_turn;
     if (x > 128) x = 128;
-    DisplayFillRect(0, y, x, 1, RGB565(0xff, 0xff, 0x00));
-    DisplayFillRect(x, y, 128 - x, 1, RGB565(0x00, 0x00, 0x00));
+    DisplayFillRect(0, y, x, 1, RGB(0xff, 0xff, 0x00));
+    DisplayFillRect(x, y, 128 - x, 1, RGB(0x00, 0x00, 0x00));
   }
 
   GfxDrawString(region,
                 10,
                 1,
                 soc_str,
-                state->knob_pressed ? RGB565(0x00, 0xff, 0x00) : RGB565(0xff, 0xff, 0xff),
-                RGB565(0, 0, 0));
+                state->knob_pressed ? RGB(0x00, 0xff, 0x00) : RGB(0xff, 0xff, 0xff),
+                RGB(0, 0, 0));
 
   unsigned x = ((acc[0] ^ 0x4000) >> 11) & 0xF;
   unsigned y = ((acc[1] ^ 0x4000) >> 11) & 0xF;
-  area[y][x] = RGB565(0xff, 0x00, 0x00);
+  area[y][x] = RGB(0xff, 0x00, 0x00);
   GfxCopy(region, 112, 0, 16, 16, &area[0][0]);
-  area[y][x] = RGB565(0xff, 0xff, 0xff);
+  area[y][x] = RGB(0xff, 0xff, 0xff);
 }
 
 static DemoAppState demo_app_state;

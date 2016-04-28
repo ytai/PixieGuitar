@@ -8,7 +8,7 @@
 #define DISPLAY_WIDTH 128
 #define DISPLAY_HEIGHT 160
 
-#define RGB565(r,g,b) ((((r) & 0xF8) << 8) | (((g) & 0xFC) << 3) | ((b) >> 3))
+#define RGB(r,g,b) ((((r) & 0xF8) << 8) | (((g) & 0xFC) << 3) | ((b) >> 3))
 
 void DisplayInit();
 

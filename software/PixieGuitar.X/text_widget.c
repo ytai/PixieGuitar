@@ -16,8 +16,8 @@ static bool TextWidgetOnTick(void * instance,
   bool highlighted = state != WIDGET_INACTIVE;
   bool active = state == WIDGET_ACTIVE;
 
-  uint16_t fg_color = active ? RGB565(0xFF, 0xFF, 0xFF) : RGB565(0x80, 0x80, 0x80);
-  uint16_t bg_color = highlighted ? RGB565(0x00, 0x00, 0x80) : RGB565(0, 0, 0);
+  uint16_t fg_color = active ? RGB(0xFF, 0xFF, 0xFF) : RGB(0x80, 0x80, 0x80);
+  uint16_t bg_color = highlighted ? RGB(0x00, 0x00, 0x80) : RGB(0, 0, 0);
 
   if (force_draw || state != me->_last_drawn_state) {
     GfxFill(region, bg_color);
