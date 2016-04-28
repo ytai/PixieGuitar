@@ -34,6 +34,8 @@ V Clean-up LCD driver (function names, more elegant init).
 - Generic "Widget App"?
 - Fit to parent / fit to children sizing?
 - Application stack.
+- Power off on long click.
+- Power off on low battery.
 
 Document:
 - Use of DMA.
