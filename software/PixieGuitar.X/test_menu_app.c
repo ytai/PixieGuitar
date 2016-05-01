@@ -36,8 +36,9 @@ static void WidgetAppOnTick(App * instance,
   me->force_draw = false;
 }
 
-App * WidgetAppInit(WidgetApp * instance, Widget * widget) {
+App * WidgetAppInit(WidgetApp * instance, char const * title, Widget * widget) {
   memset(&instance->app, 0, sizeof(instance->app));
+  instance->app.title = title;
   instance->app.OnStart = WidgetAppOnStart;
   instance->app.OnResume = WidgetAppOnResume;
   instance->app.OnTick = WidgetAppOnTick;
@@ -82,6 +83,6 @@ App * TestMenuAppInit(TestMenuApp * instance) {
 
   VerticalWidgetListInit(&instance->list, instance->textp, 8);
 
-  return WidgetAppInit(&instance->app, &instance->list.widget);
+  return WidgetAppInit(&instance->app, "Main Menu", &instance->list.widget);
 }
 

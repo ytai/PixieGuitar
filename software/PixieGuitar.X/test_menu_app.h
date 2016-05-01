@@ -11,7 +11,7 @@ typedef struct {
   bool force_draw;
 } WidgetApp;
 
-App * WidgetAppInit(WidgetApp * instance, Widget * widget);
+App * WidgetAppInit(WidgetApp * instance, char const * title, Widget * widget);
 
 typedef struct {
   WidgetApp app;

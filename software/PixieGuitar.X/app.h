@@ -20,6 +20,8 @@ typedef struct {
 } AppCommand;
 
 typedef struct _App {
+  char const * title;
+
   uint16_t (*OnStart)(struct _App * instance);
   void (*OnStop)(struct _App * instance);
   void (*OnPause)(struct _App * instance);

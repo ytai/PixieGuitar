@@ -2,6 +2,8 @@
 
 #include <assert.h>
 
+#include "display.h"
+
 static bool VerticalWidgetListOnTick(Widget * instance,
                                      GfxRect const * region,
                                      int8_t knob_turn_delta,
@@ -50,6 +52,12 @@ static bool VerticalWidgetListOnTick(Widget * instance,
     }
 
     y += child->height;
+  }
+  if (force_draw) {
+    // Fill the remainder of the screen black.
+    if (y < region->h) {
+      GfxFillRect(region, 0, y, region->w, region->h - y, RGB(0, 0, 0));
+    }
   }
   return false;
 }

@@ -53,8 +53,8 @@ bool GfxSubRegion(GfxRect const * region,
     h = region->h - y;
   }
 
-  result->x = x;
-  result->y = y;
+  result->x = region->x + x;
+  result->y = region->y + y;
   result->w = w;
   result->h = h;
 
@@ -116,6 +116,18 @@ void GfxFill(GfxRect const * region,
   DisplayFillRect(region->x, region->y, region->w, region->h, color);
 }
 
+void GfxFillRect(GfxRect const * region,
+                 int x,
+                 int y,
+                 uint8_t w,
+                 uint8_t h,
+                 uint16_t color) {
+  GfxRect rect;
+  GfxSubRegion(region, x, y, w, h, &rect);
+  if (!rect.w || !rect.h) return;
+  GfxFill(&rect, color);
+}
+
 //void GfxDrawPixel(uint8_t x, uint8_t y, uint16_t color) {
 //  DisplayFillRect(x, y, 1, 1, color);
 //}
@@ -125,45 +137,69 @@ void GfxFill(GfxRect const * region,
 //  DisplayFillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, color);
 //}
 //
-//void GfxDrawRect(uint8_t x,
-//                     uint8_t y,
-//                     uint8_t w,
-//                     uint8_t h,
-//                     uint16_t color) {
-//  GfxDrawHorizontalLine(x, y, w, color);
-//  GfxDrawHorizontalLine(x, y+h-1, w, color);
-//  GfxDrawVerticalLine(x, y, h, color);
-//  GfxDrawVerticalLine(x+w-1, y, h, color);
-//}
-//
-//void GfxDrawVerticalLine(uint8_t x,
-//                             uint8_t y,
-//                             uint8_t length,
-//                             uint16_t color) {
-//  if (x >= SCREEN_WIDTH) return;
-//  if (y+length >= SCREEN_HEIGHT) length = SCREEN_HEIGHT-y-1;
-//
-//  GfxDrawFastLine(x,y,length,color,1);
-//}
-//
-//void GfxDrawHorizontalLine(uint8_t x, uint8_t y, uint8_t length, uint16_t color) {
-//  if (y >= SCREEN_HEIGHT) return;
-//  if (x+length >= SCREEN_WIDTH) length = SCREEN_WIDTH-x-1;
-//
-//  GfxDrawFastLine(x,y,length,color,0);
-//}
-//
-//void GfxDrawFastLine(uint8_t x,
-//                         uint8_t y,
-//                         uint8_t length,
-//                         uint16_t color,
-//                         uint8_t rotflag) {
-//  if (rotflag) {
-//    DisplayFillRect(x, y, 1, length, color);
-//  } else {
-//    DisplayFillRect(x, y, length, 1, color);
-//  }
-//}
+
+void GfxDrawRect(GfxRect const * region,
+                 int x,
+                 int y,
+                 uint8_t w,
+                 uint8_t h,
+                 uint16_t color) {
+  assert(region);
+  assert(w);
+  assert(h);
+
+  GfxDrawHorizontalLine(region, x, y, w, color);
+  GfxDrawHorizontalLine(region, x, y+h-1, w, color);
+  GfxDrawVerticalLine(region, x, y+1, h-2, color);
+  GfxDrawVerticalLine(region, x+w-1, y+1, h-2, color);
+}
+
+void GfxDrawVerticalLine(GfxRect const * region,
+                         int x,
+                         int y,
+                         uint8_t length,
+                         uint16_t color) {
+  assert(region);
+
+  if (length == 0) return;
+  if (x < 0 || x >= region->w) return;
+  if (y + length <= 0 || y >= region->h) return;
+
+  if (y < 0) {
+    length += y;
+    y = 0;
+  }
+
+  if (y + length > region->h) {
+    length = region->h - y;
+  }
+
+  DisplayFillRect(region->x + x, region->y + y, 1, length, color);
+}
+
+void GfxDrawHorizontalLine(GfxRect const * region,
+                         int x,
+                         int y,
+                         uint8_t length,
+                         uint16_t color) {
+  assert(region);
+
+  if (length == 0) return;
+  if (y < 0 || y >= region->h) return;
+  if (x + length <= 0 || x >= region->w) return;
+
+  if (x < 0) {
+    length += x;
+    x = 0;
+  }
+
+  if (x + length > region->w) {
+    length = region->w - x;
+  }
+
+  DisplayFillRect(region->x + x, region->y + y, length, 1, color);
+}
+
 //
 //int abs(int val)
 //{

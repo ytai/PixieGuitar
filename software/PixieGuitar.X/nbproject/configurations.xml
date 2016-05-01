@@ -47,6 +47,7 @@
       <itemPath>vertical_widget_list.h</itemPath>
       <itemPath>widget.h</itemPath>
       <itemPath>demo_app.h</itemPath>
+      <itemPath>title_bar.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -91,6 +92,7 @@
       <itemPath>demo_app.c</itemPath>
       <itemPath>text_widget.c</itemPath>
       <itemPath>vertical_widget_list.c</itemPath>
+      <itemPath>title_bar.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

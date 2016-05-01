@@ -13,6 +13,7 @@
 #include "analog.h"
 #include "knob.h"
 #include "ticker.h"
+#include "title_bar.h"
 
 #define CMD_TICK        0x0000
 #define CMD_PUSH_APP    0x0001
@@ -27,6 +28,8 @@ static bool knob_prev_pressed;
 static TaskHandle_t app_task;
 static void * command_queue;
 static unsigned tick_mask_count = 0;
+
+static TitleBar title_bar;
 
 static void AudioEvent(int16_t * buffer) {
   AppCommand cmd = { CMD_TICK, (uint16_t) buffer };
@@ -50,7 +53,6 @@ static void UnmaskTick() {
 }
 
 static void ResumeApp() {
-  GfxFill(&gfx_full_screen, RGB(0, 0, 0));
   if (active_app->OnResume) active_app->OnResume(active_app);
 
   if (active_app->_flags & APP_EV_MASK_ACC) {
@@ -143,8 +145,18 @@ static void Tick(int16_t * audio_buffer) {
     else soc_percent = (uint8_t) ((vbat - 7.2f) * 100);
   }
 
+  GfxRect region = { 0, 0, DISPLAY_WIDTH, 16 };
+
+  TitleBarDraw(&title_bar,
+               &region,
+               active_app->title ? active_app->title : "Untitled",
+               soc_percent);
+
+  region.y = 16;
+  region.h = DISPLAY_HEIGHT - 16;
+
   active_app->OnTick(active_app,
-                     &gfx_full_screen,
+                     &region,
                      audio_buffer,
                      acc,
                      knob_turn_delta,
@@ -174,6 +186,7 @@ static void ProcessPendingCommand() {
 static void AppTask(void * p) {
   App * main_app = (App *) p;
 
+  TitleBarInit(&title_bar);
   AnalogInit();
   KnobInit();
   ImuInit();

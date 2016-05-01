@@ -44,7 +44,13 @@ typedef struct {
   App app;
   uint8_t knob_turn;
   bool knob_pressed;
+  bool force_draw;
 } DemoApp;
+
+static void DemoAppOnResume(App * instance) {
+  DemoApp * app = (DemoApp *) instance;
+  app->force_draw = true;
+}
 
 static uint16_t DemoAppOnStart(App * instance) {
   DemoApp * app = (DemoApp *) instance;
@@ -100,18 +106,27 @@ static void DemoAppOnTick(App * instance,
   PixieSetColor(max_index << 2, max_volume);
   ChainWrite(pixie_buf, sizeof(pixie_buf));
 
-  for (size_t y = 16; y < 160; ++y) {
-    int16_t sample = audio_samples[y - 16];
+  int16_t const * p = audio_samples;
+  for (int y = 16; y < region->h; ++y) {
+    int16_t sample = *p++;
 //          uint8_t x = sample >> 9 ;
 //          line[x] = RGB565(0xff, 0xff, 0x00);
 //          DisplayCopyRect(0, y, 128, 1, line);
 //          line[x] = 0;
     uint8_t x = sample * app->knob_turn;
     if (x > 128) x = 128;
-    DisplayFillRect(0, y, x, 1, RGB(0xff, 0xff, 0x00));
-    DisplayFillRect(x, y, 128 - x, 1, RGB(0x00, 0x00, 0x00));
+    GfxDrawHorizontalLine(region, 0, y, x, RGB(0xff, 0xff, 0x00));
+    GfxDrawHorizontalLine(region, x, y, 128 - x, RGB(0x00, 0x00, 0x00));
   }
 
+  if (app->force_draw) {
+    GfxFillRect(region,
+                0,
+                0,
+                region->w - 16,
+                16,
+                RGB(0, 0, 0));
+  }
   GfxDrawString(region,
                 10,
                 1,
@@ -122,8 +137,10 @@ static void DemoAppOnTick(App * instance,
   unsigned x = ((acc[0] ^ 0x4000) >> 11) & 0xF;
   unsigned y = ((acc[1] ^ 0x4000) >> 11) & 0xF;
   area[y][x] = RGB(0xff, 0x00, 0x00);
-  GfxCopy(region, 112, 0, 16, 16, &area[0][0]);
+  GfxCopy(region, region->w - 16, 0, 16, 16, &area[0][0]);
   area[y][x] = RGB(0xff, 0xff, 0xff);
+
+  app->force_draw = false;
 }
 
 static DemoApp demo_app;
@@ -133,6 +150,8 @@ App * DemoAppInit() {
   HanningInit(ANALOG_BUFFER_LEN, window);
 
   memset(&demo_app, 0, sizeof(demo_app));
+  demo_app.app.title = "Demo Application";
+  demo_app.app.OnResume = DemoAppOnResume;
   demo_app.app.OnStart = DemoAppOnStart;
   demo_app.app.OnTick = DemoAppOnTick;
   return &demo_app.app;
