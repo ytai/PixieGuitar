@@ -20,20 +20,18 @@ typedef struct {
 } AppCommand;
 
 typedef struct _App {
-  void * instance;
-
-  uint16_t (*OnStart)(void * instance);
-  void (*OnStop)(void * instance);
-  void (*OnPause)(void * instance);
-  void (*OnResume)(void * instance);
-  void (*OnTick)(void * instance,
+  uint16_t (*OnStart)(struct _App * instance);
+  void (*OnStop)(struct _App * instance);
+  void (*OnPause)(struct _App * instance);
+  void (*OnResume)(struct _App * instance);
+  void (*OnTick)(struct _App * instance,
                  GfxRect const * region,
                  int16_t * audio_samples,
                  int16_t acc[3],
                  int8_t knob_turn_delta,
                  int8_t knob_press_delta,
                  uint8_t soc_percent);
-  void (*OnCommand)(void * instance, AppCommand const * cmd);
+  void (*OnCommand)(struct _App * instance, AppCommand const * cmd);
 
   // private
   struct _App * _parent;

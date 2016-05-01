@@ -30,7 +30,7 @@ V Clean-up LCD driver (function names, more elegant init).
 - Filter Soc.
 - Centralized title bar handling.
 - OnReset() method to Widget.
-- Avoid explicit instance pointers in class structures.
+V Avoid explicit instance pointers in class structures.
 - Generic "Widget App"?
 - Fit to parent / fit to children sizing?
 - Application stack.

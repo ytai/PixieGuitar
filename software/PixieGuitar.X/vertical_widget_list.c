@@ -2,7 +2,7 @@
 
 #include <assert.h>
 
-static bool VerticalWidgetListOnTick(void * instance,
+static bool VerticalWidgetListOnTick(Widget * instance,
                                      GfxRect const * region,
                                      int8_t knob_turn_delta,
                                      int8_t knob_press_delta,
@@ -37,7 +37,7 @@ static bool VerticalWidgetListOnTick(void * instance,
 
     bool selected = i == me->_highlighted_child;
     bool active = selected && me->_child_active;
-    bool child_done = child->OnTick(child->instance,
+    bool child_done = child->OnTick(child,
                                     &child_region,
                                     active ? knob_turn_delta : 0,
                                     active ? knob_press_delta : 0,
@@ -61,7 +61,6 @@ void VerticalWidgetListInit(VerticalWidgetList * instance,
   assert(children || !children_count);
 
   // Initialize super.
-  instance->widget.instance = instance;
   instance->widget.OnTick = VerticalWidgetListOnTick;
   instance->widget.height = 0;
   instance->widget.width = 0;

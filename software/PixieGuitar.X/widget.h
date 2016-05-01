@@ -12,12 +12,11 @@ typedef enum {
   WIDGET_ACTIVE
 } WidgetState;
 
-typedef struct {
-  void * instance;
+typedef struct _Widget {
   unsigned width;
   unsigned height;
 
-  bool (*OnTick)(void * instance,
+  bool (*OnTick)(struct _Widget * instance,
                  GfxRect const * region,
                  int8_t knob_turn_delta,
                  int8_t knob_press_delta,

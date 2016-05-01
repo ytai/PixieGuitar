@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <string.h>
 
-static bool TextWidgetOnTick(void * instance,
+static bool TextWidgetOnTick(Widget * instance,
                              GfxRect const * region,
                              int8_t knob_turn_delta,
                              int8_t knob_press_delta,
@@ -51,7 +51,6 @@ void TextWidgetInit(TextWidget * instance,
 
   instance->widget.height = height;
   instance->widget.width = width;
-  instance->widget.instance = instance;
   instance->widget.OnTick = TextWidgetOnTick;
 
   instance->_str = str;

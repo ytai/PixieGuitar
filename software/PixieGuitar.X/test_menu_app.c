@@ -6,28 +6,28 @@
 #include "display.h"
 #include "demo_app.h"
 
-static uint16_t WidgetAppOnStart(void * instance) {
+static uint16_t WidgetAppOnStart(App * instance) {
   assert(instance);
   return APP_EV_MASK_KNOB;
 }
-static void WidgetAppOnResume(void * instance) {
+static void WidgetAppOnResume(App * instance) {
   assert(instance);
 
   WidgetApp * me = (WidgetApp *) instance;
   me->force_draw = true;
 }
 
-static void WidgetAppOnTick(void * instance,
-                              GfxRect const * region,
-                              int16_t * audio_samples,
-                              int16_t acc[3],
-                              int8_t knob_turn_delta,
-                              int8_t knob_press_delta,
-                              uint8_t soc_percent) {
+static void WidgetAppOnTick(App * instance,
+                            GfxRect const * region,
+                            int16_t * audio_samples,
+                            int16_t acc[3],
+                            int8_t knob_turn_delta,
+                            int8_t knob_press_delta,
+                            uint8_t soc_percent) {
   assert(instance);
 
   WidgetApp * me = (WidgetApp *) instance;
-  me->widget->OnTick(&me->widget->instance,
+  me->widget->OnTick(me->widget,
                      region,
                      knob_turn_delta,
                      knob_press_delta,
@@ -38,7 +38,6 @@ static void WidgetAppOnTick(void * instance,
 
 App * WidgetAppInit(WidgetApp * instance, Widget * widget) {
   memset(&instance->app, 0, sizeof(instance->app));
-  instance->app.instance = instance;
   instance->app.OnStart = WidgetAppOnStart;
   instance->app.OnResume = WidgetAppOnResume;
   instance->app.OnTick = WidgetAppOnTick;

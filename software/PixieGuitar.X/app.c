@@ -51,7 +51,7 @@ static void UnmaskTick() {
 
 static void ResumeApp() {
   GfxFill(&gfx_full_screen, RGB(0, 0, 0));
-  if (active_app->OnResume) active_app->OnResume(active_app->instance);
+  if (active_app->OnResume) active_app->OnResume(active_app);
 
   if (active_app->_flags & APP_EV_MASK_ACC) {
     ImuOn();
@@ -74,13 +74,13 @@ static void PauseApp() {
     TickerStop();
   }
   MaskTick();
-  if (active_app->OnPause) active_app->OnPause(active_app->instance);
+  if (active_app->OnPause) active_app->OnPause(active_app);
 }
 
 static void PopApp() {
   assert(active_app);
   PauseApp();
-  if (active_app->OnStop) active_app->OnStop(active_app->instance);
+  if (active_app->OnStop) active_app->OnStop(active_app);
   active_app = active_app->_parent;
   if (active_app) ResumeApp();
 }
@@ -90,7 +90,7 @@ static void PushApp(App * app) {
   PauseApp();
   app->_parent = active_app;
   active_app = app;
-  app->_flags = (active_app->OnStart ? app->OnStart(app->instance) : 0);
+  app->_flags = (active_app->OnStart ? app->OnStart(app) : 0);
   ResumeApp();
 }
 
@@ -98,10 +98,10 @@ static void SwitchApp(App * app) {
   assert(app);
   assert(active_app);
   PauseApp();
-  if (active_app->OnStop) active_app->OnStop(active_app->instance);
+  if (active_app->OnStop) active_app->OnStop(active_app);
   app->_parent = active_app->_parent;
   active_app = app;
-  app->_flags = (active_app->OnStart ? app->OnStart(app->instance) : 0);
+  app->_flags = (active_app->OnStart ? app->OnStart(app) : 0);
   ResumeApp();
 }
 
@@ -143,7 +143,7 @@ static void Tick(int16_t * audio_buffer) {
     else soc_percent = (uint8_t) ((vbat - 7.2f) * 100);
   }
 
-  active_app->OnTick(active_app->instance,
+  active_app->OnTick(active_app,
                      &gfx_full_screen,
                      audio_buffer,
                      acc,
@@ -166,7 +166,7 @@ static void ProcessPendingCommand() {
     default:
       assert(command.cmd >= APP_CMD_MIN);
       if (active_app && active_app->OnCommand) {
-        active_app->OnCommand(active_app->instance, &command);
+        active_app->OnCommand(active_app, &command);
       }
   }
 }

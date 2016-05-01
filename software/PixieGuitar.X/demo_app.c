@@ -41,14 +41,15 @@ static void PixieSetColor(uint8_t hue, uint8_t brightness) {
 static uint16_t area[16][16];
 
 typedef struct {
+  App app;
   uint8_t knob_turn;
   bool knob_pressed;
-} DemoAppState;
+} DemoApp;
 
-static uint16_t DemoAppOnStart(void * instance) {
-  DemoAppState * state = (DemoAppState *) instance;
-  state->knob_turn = 1;
-  state->knob_pressed = false;
+static uint16_t DemoAppOnStart(App * instance) {
+  DemoApp * app = (DemoApp *) instance;
+  app->knob_turn = 1;
+  app->knob_pressed = false;
 
   for (unsigned i = 0; i < 16; ++i)
     for (unsigned j = 0; j < 16; ++j)
@@ -60,25 +61,25 @@ static uint16_t DemoAppOnStart(void * instance) {
          APP_EV_MASK_SOC;
 }
 
-static void DemoAppOnTick(void * instance,
+static void DemoAppOnTick(App * instance,
                           GfxRect const * region,
                           int16_t * audio_samples,
                           int16_t acc[3],
                           int8_t knob_turn_delta,
                           int8_t knob_press_delta,
                           uint8_t soc_percent) {
-  DemoAppState * state = (DemoAppState *) instance;
-  state->knob_turn += knob_turn_delta;
-  state->knob_pressed = ((int) state->knob_pressed + knob_press_delta) > 0;
+  DemoApp * app = (DemoApp *) instance;
+  app->knob_turn += knob_turn_delta;
+  app->knob_pressed = ((int) app->knob_pressed + knob_press_delta) > 0;
 
   if (knob_press_delta < 0) AppPostCommand(AppCommandPop());
 
   char soc_str[15];
-  snprintf(soc_str, sizeof(soc_str), "SoC=%3d%% P=%03d", soc_percent, state->knob_turn);
+  snprintf(soc_str, sizeof(soc_str), "SoC=%3d%% P=%03d", soc_percent, app->knob_turn);
 
   VectorWindow(ANALOG_BUFFER_LEN, audio_samples, audio_samples, window);
   for (unsigned i = 0; i < ANALOG_BUFFER_LEN; ++i) {
-    complex_buf[i].real = audio_samples[i] * state->knob_turn;
+    complex_buf[i].real = audio_samples[i] * app->knob_turn;
     complex_buf[i].imag = 0;
   }
 
@@ -94,7 +95,7 @@ static void DemoAppOnTick(void * instance,
       max_volume = audio_samples[i + 4];
     }
   }
-  max_volume *= state->knob_turn;
+  max_volume *= app->knob_turn;
   if (max_volume > 255) max_volume = 255;
   PixieSetColor(max_index << 2, max_volume);
   ChainWrite(pixie_buf, sizeof(pixie_buf));
@@ -105,7 +106,7 @@ static void DemoAppOnTick(void * instance,
 //          line[x] = RGB565(0xff, 0xff, 0x00);
 //          DisplayCopyRect(0, y, 128, 1, line);
 //          line[x] = 0;
-    uint8_t x = sample * state->knob_turn;
+    uint8_t x = sample * app->knob_turn;
     if (x > 128) x = 128;
     DisplayFillRect(0, y, x, 1, RGB(0xff, 0xff, 0x00));
     DisplayFillRect(x, y, 128 - x, 1, RGB(0x00, 0x00, 0x00));
@@ -115,7 +116,7 @@ static void DemoAppOnTick(void * instance,
                 10,
                 1,
                 soc_str,
-                state->knob_pressed ? RGB(0x00, 0xff, 0x00) : RGB(0xff, 0xff, 0xff),
+                app->knob_pressed ? RGB(0x00, 0xff, 0x00) : RGB(0xff, 0xff, 0xff),
                 RGB(0, 0, 0));
 
   unsigned x = ((acc[0] ^ 0x4000) >> 11) & 0xF;
@@ -125,17 +126,15 @@ static void DemoAppOnTick(void * instance,
   area[y][x] = RGB(0xff, 0xff, 0xff);
 }
 
-static DemoAppState demo_app_state;
-static App demo_app;
+static DemoApp demo_app;
 
 App * DemoAppInit() {
   TwidFactorInit(ANALOG_LOG2_BUFFER_LEN, twiddle, 0);
   HanningInit(ANALOG_BUFFER_LEN, window);
 
   memset(&demo_app, 0, sizeof(demo_app));
-  demo_app.instance = &demo_app_state;
-  demo_app.OnStart = DemoAppOnStart;
-  demo_app.OnTick = DemoAppOnTick;
-  return &demo_app;
+  demo_app.app.OnStart = DemoAppOnStart;
+  demo_app.app.OnTick = DemoAppOnTick;
+  return &demo_app.app;
 }
 
