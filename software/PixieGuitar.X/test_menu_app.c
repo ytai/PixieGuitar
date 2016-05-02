@@ -54,7 +54,9 @@ App * TestMenuAppInit(TestMenuApp * instance) {
   instance->launch_cmd = AppCommandPush(DemoAppInit());
 
 #define WHITE RGB(0xFF, 0xFF, 0xFF)
-#define GRAY  RGB(0x80, 0x80, 0x80)
+#define BLACK RGB(0x00, 0x00, 0x00)
+#define GRAY  RGB(0xC0, 0xC0, 0xC0)
+
 
   char const * const strings[] = {
     "First choice",
@@ -73,7 +75,7 @@ App * TestMenuAppInit(TestMenuApp * instance) {
                    strings[i],
                    128,
                    16,
-                   GfxHsv(h, 0x80, 0x30),
+                   BLACK,
                    GfxHsv(h, 0xFF, 0x80),
                    GRAY,
                    WHITE,
