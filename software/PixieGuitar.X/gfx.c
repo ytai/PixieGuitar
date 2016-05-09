@@ -4,6 +4,7 @@
 
 #include "display.h"
 #include "font.h"
+#include "color.h"
 
 #define swap(a, b) { int t = a; a = b; b = t; }
 
@@ -66,7 +67,7 @@ void GfxCopy(GfxRect const * region,
              int y,
              uint8_t w,
              uint8_t h,
-             uint16_t const * data) {
+             Rgb565 const * data) {
   assert(region);
   // No-op if out of bounds.
   if (!GfxOverlaps(region, x, y, w, h)) return;
@@ -111,7 +112,7 @@ void GfxCopy(GfxRect const * region,
 }
 
 void GfxFill(GfxRect const * region,
-             uint16_t color) {
+             Rgb565 color) {
   assert(region);
   DisplayFillRect(region->x, region->y, region->w, region->h, color);
 }
@@ -121,7 +122,7 @@ void GfxFillRect(GfxRect const * region,
                  int y,
                  uint8_t w,
                  uint8_t h,
-                 uint16_t color) {
+                 Rgb565 color) {
   GfxRect rect;
   GfxSubRegion(region, x, y, w, h, &rect);
   if (!rect.w || !rect.h) return;
@@ -143,7 +144,7 @@ void GfxDrawRect(GfxRect const * region,
                  int y,
                  uint8_t w,
                  uint8_t h,
-                 uint16_t color) {
+                 Rgb565 color) {
   assert(region);
   assert(w);
   assert(h);
@@ -158,7 +159,7 @@ void GfxDrawVerticalLine(GfxRect const * region,
                          int x,
                          int y,
                          uint8_t length,
-                         uint16_t color) {
+                         Rgb565 color) {
   assert(region);
 
   if (length == 0) return;
@@ -181,7 +182,7 @@ void GfxDrawHorizontalLine(GfxRect const * region,
                          int x,
                          int y,
                          uint8_t length,
-                         uint16_t color) {
+                         Rgb565 color) {
   assert(region);
 
   if (length == 0) return;
@@ -250,8 +251,8 @@ void GfxDrawString(GfxRect const * region,
                    int x,
                    int y,
                    char const * str,
-                   uint16_t fg_color,
-                   uint16_t bg_color) {
+                   Rgb565 fg_color,
+                   Rgb565 bg_color) {
   while (*str) {
     GfxDrawChar(region, x, y, *str, fg_color, bg_color);
     x += 6;
@@ -263,8 +264,8 @@ void GfxDrawChar(GfxRect const * region,
                  int x,
                  int y,
                  char c,
-                 uint16_t fg_color,
-                 uint16_t bg_color) {
+                 Rgb565 fg_color,
+                 Rgb565 bg_color) {
   // Fast return on invalid characters.
   if (c < 0x20 || c >= 0x80) return;
 
@@ -272,7 +273,7 @@ void GfxDrawChar(GfxRect const * region,
   if (!GfxOverlaps(region, x, y, 5, 8)) return;
 
 
-  uint16_t buffer[8][5];
+  Rgb565 buffer[8][5];
   uint8_t i, j;
 
   uint8_t letter = c - 0x20;
@@ -286,43 +287,4 @@ void GfxDrawChar(GfxRect const * region,
     }
   }
   GfxCopy(region, x, y, 5, 8, &buffer[0][0]);
-}
-
-static uint8_t Bump(uint16_t index) {
-  uint8_t lsb = index & 0xFF;
-  uint8_t msb = index >> 8;
-  switch (msb) {
-    case 0: case  6: return 0xFF;
-    case 1: case  7: return 0xFF - lsb;
-    case 2: case  8: return 0;
-    case 3: case  9: return 0;
-    case 4: case 10: return lsb;
-    case 5: case 11: return 0xFF;
-  }
-  assert(false);
-}
-
-static inline uint8_t MulU8U8U8(uint8_t x, uint8_t y) {
-  return ((uint16_t) x * (uint16_t) y) >> 8;
-}
-
-uint16_t GfxHsv(uint16_t h, uint8_t s, uint8_t v) {
-  assert(h < 1536);
-
-  // Generate full-saturation, full-value color:
-  uint8_t r = Bump(h);
-  uint8_t g = Bump(h + 1024);
-  uint8_t b = Bump(h + 512);
-
-  // The s parameter specifies a linear mix with gray. Thus for any component y,
-  // its value would be (pretending that values are 0..1):
-  // v * (y * s + (1 - s)) = (v*s) * y + (v-v*s) = c * y + d
-  uint8_t c = MulU8U8U8(s, v);
-  uint8_t d = v - c;
-
-  r = MulU8U8U8(r, c) + d;
-  g = MulU8U8U8(g, c) + d;
-  b = MulU8U8U8(b, c) + d;
-
-  return RGB(r, g, b);
 }

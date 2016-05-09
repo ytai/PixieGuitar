@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "color.h"
+
 typedef struct {
   uint8_t x;
   uint8_t y;
@@ -31,40 +33,34 @@ void GfxCopy(GfxRect const * region,
              int y,
              uint8_t w,
              uint8_t h,
-             uint16_t const * data);
+             Rgb565 const * data);
 
 void GfxFill(GfxRect const * region,
-             uint16_t color);
+             Rgb565 color);
 
 void GfxFillRect(GfxRect const * region,
                  int x,
                  int y,
                  uint8_t w,
                  uint8_t h,
-                 uint16_t color);
+                 Rgb565 color);
 
-//void GfxDrawPixel(GfxRect const * region,
-//                  uint8_t x,
-//                  uint8_t y,
-//                  uint16_t color);
-//
-//void GfxFillScreen(uint16_t color);
 void GfxDrawRect(GfxRect const * region,
                  int x,
                  int y,
                  uint8_t w,
                  uint8_t h,
-                 uint16_t color);
+                 Rgb565 color);
 void GfxDrawVerticalLine(GfxRect const * region,
                          int x,
                          int y,
                          uint8_t length,
-                         uint16_t color);
+                         Rgb565 color);
 void GfxDrawHorizontalLine(GfxRect const * region,
                          int x,
                          int y,
                          uint8_t length,
-                         uint16_t color);
+                         Rgb565 color);
 //void GfxDrawFastLine(uint8_t x, uint8_t y, uint8_t length, uint16_t color, uint8_t rotflag);
 //void GfxDrawLine(int x0, int y0, int x1, int y1, uint16_t color);
 
@@ -72,17 +68,15 @@ void GfxDrawString(GfxRect const * region,
                    int x,
                    int y,
                    char const * str,
-                   uint16_t fg_color,
-                   uint16_t bg_color);
+                   Rgb565 fg_color,
+                   Rgb565 bg_color);
 
 void GfxDrawChar(GfxRect const * region,
                  int x,
                  int y,
                  char c,
-                 uint16_t fg_color,
-                 uint16_t bg_color);
-
-uint16_t GfxHsv(uint16_t h, uint8_t s, uint8_t v);
+                 Rgb565 fg_color,
+                 Rgb565 bg_color);
 
 
 #endif  // GFX_H

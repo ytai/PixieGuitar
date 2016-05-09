@@ -53,9 +53,9 @@ App * TestMenuAppInit(TestMenuApp * instance) {
 
   instance->launch_cmd = AppCommandPush(DemoAppInit());
 
-#define WHITE RGB(0xFF, 0xFF, 0xFF)
-#define BLACK RGB(0x00, 0x00, 0x00)
-#define GRAY  RGB(0xC0, 0xC0, 0xC0)
+#define WHITE RGB565(0xFF, 0xFF, 0xFF)
+#define BLACK RGB565(0x00, 0x00, 0x00)
+#define GRAY  RGB565(0xC0, 0xC0, 0xC0)
 
 
   char const * const strings[] = {
@@ -76,7 +76,7 @@ App * TestMenuAppInit(TestMenuApp * instance) {
                    128,
                    16,
                    BLACK,
-                   GfxHsv(h, 0xFF, 0x80),
+                   Hsv2Rgb565(h, 0xFF, 0x80),
                    GRAY,
                    WHITE,
                    i == 2 ? &instance->launch_cmd : NULL);

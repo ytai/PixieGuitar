@@ -191,7 +191,7 @@ static void AppTask(void * p) {
   KnobInit();
   ImuInit();
   DisplayInit();
-  GfxFill(&gfx_full_screen, RGB(0, 0, 0));
+  GfxFill(&gfx_full_screen, RGB565(0, 0, 0));
   DisplaySetBacklight(0xFFFF);
 
   if (main_app) AppPostCommand(AppCommandPush(main_app));

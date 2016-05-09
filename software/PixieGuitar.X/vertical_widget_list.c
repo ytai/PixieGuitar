@@ -56,7 +56,7 @@ static bool VerticalWidgetListOnTick(Widget * instance,
   if (force_draw) {
     // Fill the remainder of the screen black.
     if (y < region->h) {
-      GfxFillRect(region, 0, y, region->w, region->h - y, RGB(0, 0, 0));
+      GfxFillRect(region, 0, y, region->w, region->h - y, RGB565(0, 0, 0));
     }
   }
   return false;

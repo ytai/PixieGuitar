@@ -373,7 +373,7 @@ void DisplayFillRect(uint8_t x,
                      uint8_t y,
                      uint8_t w,
                      uint8_t h,
-                     uint16_t color) {
+                     Rgb565 color) {
   BeginWriteWindow(x, y, x+w-1, y+h-1);
   SpiWriteRepeatedValue(color, w * h);
   EndCommand();
@@ -383,7 +383,7 @@ void DisplayCopyRect(uint8_t x,
                      uint8_t y,
                      uint8_t w,
                      uint8_t h,
-                     uint16_t const * data) {
+                     Rgb565 const * data) {
   BeginWriteWindow(x, y, x+w-1, y+h-1);
   SpiWriteBuffer(data, w * h);
   EndCommand();
@@ -394,7 +394,7 @@ void DisplayCopyRectFrag(uint8_t x,
                          uint8_t w,
                          uint8_t h,
                          uint8_t stride,
-                         uint16_t const * data) {
+                         Rgb565 const * data) {
   BeginWriteWindow(x, y, x+w-1, y+h-1);
   for (uint8_t i = 0; i < h; ++i) {
     SpiWriteBuffer(data, w);

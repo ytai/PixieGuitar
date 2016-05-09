@@ -10,9 +10,9 @@
 
 #include "display.h"
 
-#define BG_COLOR RGB(0x40, 0x40, 0x40)
-#define FG_COLOR RGB(0xFF, 0xFF, 0xFF)
-#define BLACK    RGB(0x00, 0x00, 0x00)
+#define BG_COLOR RGB565(0x40, 0x40, 0x40)
+#define FG_COLOR RGB565(0xFF, 0xFF, 0xFF)
+#define BLACK    RGB565(0x00, 0x00, 0x00)
 
 void TitleBarInit(TitleBar * instance) {
   assert(instance);
@@ -76,7 +76,7 @@ void TitleBarDraw(TitleBar * instance,
       strncpy(soc_text, "MAX", sizeof(soc_text));
     }
 
-    uint16_t soc_color = GfxHsv(512u * soc_percent / 100, 0xFF, 0x80);
+    Rgb565 soc_color = Hsv2Rgb565(512u * soc_percent / 100, 0xFF, 0x80);
     uint8_t soc_width = soc_percent / 5;
 
     // Divide inside of battery into two regions: the "empty" on the left and

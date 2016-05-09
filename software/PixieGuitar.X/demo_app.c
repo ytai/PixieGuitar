@@ -59,7 +59,7 @@ static uint16_t DemoAppOnStart(App * instance) {
 
   for (unsigned i = 0; i < 16; ++i)
     for (unsigned j = 0; j < 16; ++j)
-      area[i][j] = RGB(0xff, 0xff, 0xff);
+      area[i][j] = RGB565(0xff, 0xff, 0xff);
 
   return APP_EV_MASK_ACC   |
          APP_EV_MASK_AUDIO |
@@ -115,8 +115,8 @@ static void DemoAppOnTick(App * instance,
 //          line[x] = 0;
     uint8_t x = sample * app->knob_turn;
     if (x > 128) x = 128;
-    GfxDrawHorizontalLine(region, 0, y, x, RGB(0xff, 0xff, 0x00));
-    GfxDrawHorizontalLine(region, x, y, 128 - x, RGB(0x00, 0x00, 0x00));
+    GfxDrawHorizontalLine(region, 0, y, x, RGB565(0xff, 0xff, 0x00));
+    GfxDrawHorizontalLine(region, x, y, 128 - x, RGB565(0x00, 0x00, 0x00));
   }
 
   if (app->force_draw) {
@@ -125,20 +125,20 @@ static void DemoAppOnTick(App * instance,
                 0,
                 region->w - 16,
                 16,
-                RGB(0, 0, 0));
+                RGB565(0, 0, 0));
   }
   GfxDrawString(region,
                 10,
                 1,
                 soc_str,
-                app->knob_pressed ? RGB(0x00, 0xff, 0x00) : RGB(0xff, 0xff, 0xff),
-                RGB(0, 0, 0));
+                app->knob_pressed ? RGB565(0x00, 0xff, 0x00) : RGB565(0xff, 0xff, 0xff),
+                RGB565(0, 0, 0));
 
   unsigned x = ((acc[0] ^ 0x4000) >> 11) & 0xF;
   unsigned y = ((acc[1] ^ 0x4000) >> 11) & 0xF;
-  area[y][x] = RGB(0xff, 0x00, 0x00);
+  area[y][x] = RGB565(0xff, 0x00, 0x00);
   GfxCopy(region, region->w - 16, 0, 16, 16, &area[0][0]);
-  area[y][x] = RGB(0xff, 0xff, 0xff);
+  area[y][x] = RGB565(0xff, 0xff, 0xff);
 
   app->force_draw = false;
 }
