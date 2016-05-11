@@ -42,3 +42,4 @@ Document:
 - Use of PTG.
 - Use of QEI.
 - FreeRTOS port.
+- PRNG using the CRC module.

@@ -50,6 +50,7 @@
       <itemPath>title_bar.h</itemPath>
       <itemPath>rainbow_app.h</itemPath>
       <itemPath>color.h</itemPath>
+      <itemPath>prng.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -97,6 +98,7 @@
       <itemPath>title_bar.c</itemPath>
       <itemPath>rainbow_app.c</itemPath>
       <itemPath>color.c</itemPath>
+      <itemPath>prng.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
