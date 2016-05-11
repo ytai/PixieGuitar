@@ -5,14 +5,15 @@
 #include <FreeRTOS.h>
 #include <task.h>
 
-#include "sync.h"
+#include "analog.h"
 #include "display.h"
 #include "gfx.h"
-#include "time.h"
 #include "imu.h"
-#include "analog.h"
 #include "knob.h"
+#include "prng.h"
+#include "sync.h"
 #include "ticker.h"
+#include "time.h"
 #include "title_bar.h"
 
 #define CMD_TICK        0x0000
@@ -186,6 +187,7 @@ static void ProcessPendingCommand() {
 static void AppTask(void * p) {
   App * main_app = (App *) p;
 
+  PrngInit();
   TitleBarInit(&title_bar);
   AnalogInit();
   KnobInit();

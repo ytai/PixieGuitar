@@ -16,6 +16,7 @@
 #include "gfx.h"
 #include "imu.h"
 #include "knob.h"
+#include "prng.h"
 #include "sync.h"
 #include "time.h"
 
@@ -23,19 +24,18 @@ static fractcomplex twiddle[ANALOG_BUFFER_LEN / 2] __attribute__((space(xmemory)
 static fractcomplex complex_buf[ANALOG_BUFFER_LEN] __attribute__((space(ymemory)));
 static fractional window[ANALOG_BUFFER_LEN] __attribute__((space(ymemory)));
 
-static uint8_t pixie_buf[3];
+static uint8_t pixie_buf[30];
 
-static uint8_t Tri(uint8_t x) {
-  if (x < 43) return x * 6;
-  if (x < 128) return 255;
-  if (x < 171) return 1023 - x * 6;
-  return 0;
+static void PixieClear() {
+  memset(pixie_buf, 0, sizeof(pixie_buf));
 }
 
-static void PixieSetColor(uint8_t hue, uint8_t brightness) {
-  pixie_buf[0] = ((uint16_t) Tri(hue +   0) * brightness) >> 8;
-  pixie_buf[1] = ((uint16_t) Tri(hue +  85) * brightness) >> 8;
-  pixie_buf[2] = ((uint16_t) Tri(hue + 170) * brightness) >> 8;
+static void PixieSetColor(unsigned index, uint8_t hue, uint8_t brightness) {
+  index *= 3;
+  Rgb888 c = Hsv2Rgb888((uint16_t) hue * 6, 0xFF, brightness);
+  pixie_buf[index + 0] = RGB888_R(c);
+  pixie_buf[index + 1] = RGB888_G(c);
+  pixie_buf[index + 2] = RGB888_B(c);
 }
 
 static uint16_t area[16][16];
@@ -103,7 +103,8 @@ static void DemoAppOnTick(App * instance,
   }
   max_volume *= app->knob_turn;
   if (max_volume > 255) max_volume = 255;
-  PixieSetColor(max_index << 2, max_volume);
+  PixieClear();
+  PixieSetColor(PrngGenerate8() % 10, max_index << 2, max_volume);
   ChainWrite(pixie_buf, sizeof(pixie_buf));
 
   int16_t const * p = audio_samples;
