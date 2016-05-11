@@ -48,6 +48,7 @@
       <itemPath>widget.h</itemPath>
       <itemPath>demo_app.h</itemPath>
       <itemPath>title_bar.h</itemPath>
+      <itemPath>rainbow_app.h</itemPath>
       <itemPath>color.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
@@ -94,6 +95,7 @@
       <itemPath>text_widget.c</itemPath>
       <itemPath>vertical_widget_list.c</itemPath>
       <itemPath>title_bar.c</itemPath>
+      <itemPath>rainbow_app.c</itemPath>
       <itemPath>color.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"

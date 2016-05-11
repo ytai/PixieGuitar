@@ -5,6 +5,7 @@
 
 #include "display.h"
 #include "demo_app.h"
+#include "rainbow_app.h"
 
 static uint16_t WidgetAppOnStart(App * instance) {
   assert(instance);
@@ -48,10 +49,13 @@ App * WidgetAppInit(WidgetApp * instance, char const * title, Widget * widget) {
   return &instance->app;
 }
 
+static RainbowApp rainbow_app;
+
 App * TestMenuAppInit(TestMenuApp * instance) {
   assert(instance);
 
-  instance->launch_cmd = AppCommandPush(DemoAppInit());
+  instance->demo_cmd = AppCommandPush(DemoAppInit());
+  instance->rainbow_cmd = AppCommandPush(RainbowAppInit(&rainbow_app));
 
 #define WHITE RGB565(0xFF, 0xFF, 0xFF)
 #define BLACK RGB565(0x00, 0x00, 0x00)
@@ -62,7 +66,7 @@ App * TestMenuAppInit(TestMenuApp * instance) {
     "First choice",
     "Second choice",
     "Launch App",
-    "Fourth choice",
+    "Rainbow Test",
     "Fifth choice",
     "Sixth choice",
     "Seventh choice",
@@ -79,7 +83,9 @@ App * TestMenuAppInit(TestMenuApp * instance) {
                    Hsv2Rgb565(h, 0xFF, 0x80),
                    GRAY,
                    WHITE,
-                   i == 2 ? &instance->launch_cmd : NULL);
+                   i == 2 ? &instance->demo_cmd  :
+                   i == 3 ? &instance->rainbow_cmd :
+                            NULL);
     instance->textp[i] = &instance->texts[i].widget;
   }
 

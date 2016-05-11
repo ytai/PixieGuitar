@@ -16,7 +16,8 @@ App * WidgetAppInit(WidgetApp * instance, char const * title, Widget * widget);
 typedef struct {
   WidgetApp app;
 
-  AppCommand launch_cmd;
+  AppCommand demo_cmd;
+  AppCommand rainbow_cmd;
   VerticalWidgetList list;
   TextWidget texts[8];
   Widget * textp[8];
