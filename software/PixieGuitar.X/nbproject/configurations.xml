@@ -42,7 +42,6 @@
       <itemPath>imu.h</itemPath>
       <itemPath>app.h</itemPath>
       <itemPath>ticker.h</itemPath>
-      <itemPath>test_menu_app.h</itemPath>
       <itemPath>text_widget.h</itemPath>
       <itemPath>vertical_widget_list.h</itemPath>
       <itemPath>widget.h</itemPath>
@@ -51,6 +50,8 @@
       <itemPath>rainbow_app.h</itemPath>
       <itemPath>color.h</itemPath>
       <itemPath>prng.h</itemPath>
+      <itemPath>widget_app.h</itemPath>
+      <itemPath>main_menu_app.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -91,7 +92,6 @@
       <itemPath>imu.c</itemPath>
       <itemPath>app.c</itemPath>
       <itemPath>ticker.c</itemPath>
-      <itemPath>test_menu_app.c</itemPath>
       <itemPath>demo_app.c</itemPath>
       <itemPath>text_widget.c</itemPath>
       <itemPath>vertical_widget_list.c</itemPath>
@@ -99,6 +99,8 @@
       <itemPath>rainbow_app.c</itemPath>
       <itemPath>color.c</itemPath>
       <itemPath>prng.c</itemPath>
+      <itemPath>widget_app.c</itemPath>
+      <itemPath>main_menu_app.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
