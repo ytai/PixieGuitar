@@ -9,33 +9,52 @@ V IMU.
 V Encoder.
 
 Implementation:
-V LCD driver is horrible. Rewrite.
+- Fix VBAT reading when audio sampling is off.
+- Filter SoC.
+- Translate acceleration readings to tilt angles.
+- Bucket frequencies into notes.
+- Flip screen on tilt.
+- Watchdog.
+- Power off / watchdog reset on long click.
+- Power off on low battery.
+- Runtime stats inaccurate (result in more than 100%). Also, they overflow.
+- Clean-up FreeRTOS port (including interrupt macros).
+  Context switching IRQ must be fully implemented in ASM and call a user C
+  function. Otherwise, the compiler might possibly do funny stuff with the frame
+  pointer. For the time being, it is disabled by a build flag.
+- Go over TODOs in the code.
+- Add acc reading to demo app.
+- Widgets for app GUI.
+- Apps:
+  - Rainbow: add control of speed and intensity from GUI.
+  - Fireworks: N channels, at every tick the peak in the spectrum can override
+    the weakest if it is stronger than it. The frequency determines the channel
+    color and amplitude the initial brightness. The other channels fade
+    exponentially (maybe also in saturation). Then each channel is randomly
+    assigned to an LED (different
+    one every tick). Tilt creates a flash.
+    Can choose the color scheme, the flash color, intensity, fade time,
+    bucketing type (octave folding).
+  - Trains: 2-3 go in circles around at different speeds, maybe changing color
+    over time. Audio volume affects speed.
+
+? Fit to parent / fit to children sizing
+? Application stack.
+? Replace font?
+? Avoid spinlocks in LCD driver.
+? OnReset() method to Widget.
+
 V Use DMA for SPI.
 V Expose screen brightness API.
 V Console UART spin-locks. Use IRQ.
 V Same for I2C.
-- Replace font?
-- Go over TODOs in the code.
 V Instrument runtime.
 V Get rid of printing functions in FreeRTOS (configUSE_STATS_FORMATTING_FUNCTIONS).
-- Watchdog.
-- Avoid spinlocks in LCD driver.
 V Clean-up LCD driver (function names, more elegant init).
-- Runtime stats inaccurate (result in more than 100%). Also, they overflow.
-- Clean-up FreeRTOS port (including interrupt macros).
-- Context switching IRQ must be fully implemented in ASM and call a user C
-  function. Otherwise, the compiler might possibly do funny stuff with the frame
-  pointer. For the time being, it is disabled by a build flag.
-
-- Filter Soc.
-- Centralized title bar handling.
-- OnReset() method to Widget.
 V Avoid explicit instance pointers in class structures.
-- Generic "Widget App"?
-- Fit to parent / fit to children sizing?
-- Application stack.
-- Power off on long click.
-- Power off on low battery.
+V LCD driver is horrible. Rewrite.
+V Generic "Widget App"?
+V Centralized title bar handling.
 
 Document:
 - Use of DMA.
