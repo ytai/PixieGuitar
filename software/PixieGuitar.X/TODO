@@ -9,7 +9,6 @@ V IMU.
 V Encoder.
 
 Implementation:
-- Filter SoC.
 - Translate acceleration readings to tilt angles.
 - Bucket frequencies into notes.
 - Flip screen on tilt.
@@ -43,6 +42,7 @@ Implementation:
 ? Avoid spinlocks in LCD driver.
 ? OnReset() method to Widget.
 
+V Filter SoC.
 V Fix VBAT reading when audio sampling is off.
 V Use DMA for SPI.
 V Expose screen brightness API.

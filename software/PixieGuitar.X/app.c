@@ -1,6 +1,7 @@
 #include "app.h"
 
 #include <assert.h>
+#include <stdlib.h>
 
 #include <FreeRTOS.h>
 #include <task.h>
@@ -26,12 +27,20 @@
 static App * active_app = NULL;
 static uint8_t knob_prev_pos;
 static bool knob_prev_pressed;
+static uint8_t prev_soc = 0;
+
 
 static TaskHandle_t app_task;
 static void * command_queue;
 static unsigned tick_mask_count = 0;
 
 static TitleBar title_bar;
+
+static inline float clamp(float value, float min, float max) {
+  if (value > max) return max;
+  if (value < min) return min;
+  return value;
+}
 
 static void AudioEvent(int16_t * buffer) {
   AppCommand cmd = { CMD_TICK, (uint16_t) buffer };
@@ -137,12 +146,22 @@ static void Tick(int16_t * audio_buffer) {
     knob_prev_pressed = pressed;
   }
 
-  uint8_t soc_percent = 0;
   float vbat = AnalogGetVbat();
   // Very simplistic SoC model: assume that the voltage drops linearly with
   // SoC between 4.1V and 3.6V per cell.
-  if      (vbat > 8.2f) soc_percent = 100;
-  else if (vbat > 7.2f) soc_percent = (uint8_t) ((vbat - 7.2f) * 100);
+  float soc = clamp(vbat - 7.2f, 0, 1) * 100;
+
+  // To avoid toggling when we're on a borderline voltage, we implement some
+  // hysteresis on the SoC: if the new SoC is within 1% of the previously
+  // reported value, we leave it unchanged.
+  uint8_t soc_percent;
+  float dsoc = soc - prev_soc;
+  if (abs(dsoc) < 1) {
+    soc_percent = prev_soc;
+  } else {
+    soc_percent = (uint8_t) (soc + 0.5f);
+    prev_soc = soc_percent;
+  }
 
   GfxRect region = { 0, 0, DISPLAY_WIDTH, 16 };
 
