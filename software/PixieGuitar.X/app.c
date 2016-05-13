@@ -1,6 +1,7 @@
 #include "app.h"
 
 #include <assert.h>
+#include <math.h>
 #include <stdlib.h>
 
 #include <FreeRTOS.h>
@@ -28,7 +29,8 @@ static App * active_app = NULL;
 static uint8_t knob_prev_pos;
 static bool knob_prev_pressed;
 static uint8_t prev_soc = 0;
-
+static bool force_redraw = true;
+static bool screen_flipped = false;
 
 static TaskHandle_t app_task;
 static void * command_queue;
@@ -66,21 +68,17 @@ static void UnmaskTick() {
 static void ResumeApp() {
   if (active_app->OnResume) active_app->OnResume(active_app);
 
-  if (active_app->_flags & APP_EV_MASK_ACC) {
-    ImuOn();
-  }
   if (active_app->_flags & APP_EV_MASK_AUDIO) {
     AnalogStart(AudioEvent);
   } else {
     TickerStart(TickerEvent);
   }
+  force_redraw = true;
 }
 
 static void PauseApp() {
   if (!active_app) return;
-  if (active_app->_flags & APP_EV_MASK_ACC) {
-    ImuOff();
-  }
+
   if (active_app->_flags & APP_EV_MASK_AUDIO) {
     AnalogStop();
   } else {
@@ -130,9 +128,9 @@ static void Tick(int16_t * audio_buffer) {
   }
 
   int16_t acc[3] = { 0, 0, 0 };
-  if (active_app->_flags & APP_EV_MASK_ACC) {
-    ImuRead(acc);
-  }
+  ImuRead(acc);
+  int16_t neck_tilt = atan2f(acc[1], -acc[0]) * 57.29577951308232f + 0.5f;
+  int16_t screen_tilt = atan2f(acc[2], -acc[0]) * 57.29577951308232f+ 0.5f;
 
   int8_t knob_turn_delta = 0;
   int8_t knob_press_delta = 0;
@@ -165,10 +163,31 @@ static void Tick(int16_t * audio_buffer) {
 
   GfxRect region = { 0, 0, DISPLAY_WIDTH, 16 };
 
+  // Handle screen flipping. Screen should be flipped if the screen tilt angle
+  // is > +/-25 AND the neck tilt is between -60 to 60 (with +/-5 hysteresis).
+  if (screen_flipped) {
+    if ((screen_tilt > -20 && screen_tilt < 20) ||
+        (neck_tilt < -65 || neck_tilt > 65)) {
+      screen_flipped = false;
+      force_redraw = true;
+    }
+  } else {
+    if ((screen_tilt < -30 || screen_tilt > 30) &&
+        (neck_tilt > -55 && neck_tilt < 55)) {
+      screen_flipped = true;
+      force_redraw = true;
+    }
+  }
+
+  if (force_redraw) {
+    DisplaySetRotation(screen_flipped ? 0x00 : 0xC0);
+  }
+
   TitleBarDraw(&title_bar,
                &region,
                active_app->title ? active_app->title : "Untitled",
-               soc_percent);
+               soc_percent,
+               force_redraw);
 
   region.y = 16;
   region.h = DISPLAY_HEIGHT - 16;
@@ -176,10 +195,12 @@ static void Tick(int16_t * audio_buffer) {
   active_app->OnTick(active_app,
                      &region,
                      audio_buffer,
-                     acc,
+                     neck_tilt,
                      knob_turn_delta,
                      knob_press_delta,
-                     soc_percent);
+                     soc_percent,
+                     force_redraw);
+  force_redraw = false;
 }
 
 static void ProcessPendingCommand() {
@@ -209,6 +230,7 @@ static void AppTask(void * p) {
   AnalogInit();
   KnobInit();
   ImuInit();
+  ImuOn();
   DisplayInit();
   GfxFill(&gfx_full_screen, RGB565(0, 0, 0));
   DisplaySetBacklight(0xFFFF);

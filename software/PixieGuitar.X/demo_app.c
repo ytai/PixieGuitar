@@ -44,13 +44,7 @@ typedef struct {
   App app;
   uint8_t knob_turn;
   bool knob_pressed;
-  bool force_draw;
 } DemoApp;
-
-static void DemoAppOnResume(App * instance) {
-  DemoApp * app = (DemoApp *) instance;
-  app->force_draw = true;
-}
 
 static uint16_t DemoAppOnStart(App * instance) {
   DemoApp * app = (DemoApp *) instance;
@@ -61,26 +55,26 @@ static uint16_t DemoAppOnStart(App * instance) {
     for (unsigned j = 0; j < 16; ++j)
       area[i][j] = RGB565(0xff, 0xff, 0xff);
 
-  return APP_EV_MASK_ACC   |
-         APP_EV_MASK_AUDIO |
+  return APP_EV_MASK_AUDIO |
          APP_EV_MASK_KNOB;
 }
 
 static void DemoAppOnTick(App * instance,
                           GfxRect const * region,
                           int16_t * audio_samples,
-                          int16_t acc[3],
+                          int16_t tilt,
                           int8_t knob_turn_delta,
                           int8_t knob_press_delta,
-                          uint8_t soc_percent) {
+                          uint8_t soc_percent,
+                          bool force_redraw) {
   DemoApp * app = (DemoApp *) instance;
   app->knob_turn += knob_turn_delta;
   app->knob_pressed = ((int) app->knob_pressed + knob_press_delta) > 0;
 
   if (knob_press_delta < 0) AppPostCommand(AppCommandPop());
 
-  char soc_str[15];
-  snprintf(soc_str, sizeof(soc_str), "SoC=%3d%% P=%03d", soc_percent, app->knob_turn);
+  char info_str[16];
+  snprintf(info_str, sizeof(info_str), "Tilt=%+03d P=%03d", tilt, app->knob_turn);
 
   VectorWindow(ANALOG_BUFFER_LEN, audio_samples, audio_samples, window);
   for (unsigned i = 0; i < ANALOG_BUFFER_LEN; ++i) {
@@ -119,7 +113,7 @@ static void DemoAppOnTick(App * instance,
     GfxDrawHorizontalLine(region, x, y, 128 - x, RGB565(0x00, 0x00, 0x00));
   }
 
-  if (app->force_draw) {
+  if (force_redraw) {
     GfxFillRect(region,
                 0,
                 0,
@@ -130,17 +124,10 @@ static void DemoAppOnTick(App * instance,
   GfxDrawString(region,
                 10,
                 1,
-                soc_str,
+                info_str,
                 app->knob_pressed ? RGB565(0x00, 0xff, 0x00) : RGB565(0xff, 0xff, 0xff),
                 RGB565(0, 0, 0));
 
-  unsigned x = ((acc[0] ^ 0x4000) >> 11) & 0xF;
-  unsigned y = ((acc[1] ^ 0x4000) >> 11) & 0xF;
-  area[y][x] = RGB565(0xff, 0x00, 0x00);
-  GfxCopy(region, region->w - 16, 0, 16, 16, &area[0][0]);
-  area[y][x] = RGB565(0xff, 0xff, 0xff);
-
-  app->force_draw = false;
 }
 
 static DemoApp demo_app;
@@ -151,7 +138,6 @@ App * DemoAppInit() {
 
   memset(&demo_app, 0, sizeof(demo_app));
   demo_app.app.title = "Demo Application";
-  demo_app.app.OnResume = DemoAppOnResume;
   demo_app.app.OnStart = DemoAppOnStart;
   demo_app.app.OnTick = DemoAppOnTick;
   return &demo_app.app;

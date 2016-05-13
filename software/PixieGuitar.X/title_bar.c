@@ -24,14 +24,15 @@ void TitleBarInit(TitleBar * instance) {
 void TitleBarDraw(TitleBar * instance,
                   GfxRect const * region,
                   char const * title,
-                  uint8_t soc_percent) {
+                  uint8_t soc_percent,
+                  bool force_redraw) {
   assert(instance);
   assert(region);
   assert(title);
 
   // No need to use strcmp. Worst-case, we'll redraw needlessly.
-  bool redraw_title = instance->_last_title != title;
-  bool redraw_soc = soc_percent != instance->_last_soc;
+  bool redraw_title = force_redraw || instance->_last_title != title;
+  bool redraw_soc = force_redraw || soc_percent != instance->_last_soc;
 
   if (redraw_title) {
     GfxRect title_region;

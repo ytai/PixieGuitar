@@ -9,9 +9,7 @@ V IMU.
 V Encoder.
 
 Implementation:
-- Translate acceleration readings to tilt angles.
 - Bucket frequencies into notes.
-- Flip screen on tilt.
 - Watchdog.
 - Power off / watchdog reset on long click.
 - Power off on low battery.
@@ -42,6 +40,8 @@ Implementation:
 ? Avoid spinlocks in LCD driver.
 ? OnReset() method to Widget.
 
+V Flip screen on tilt.
+V Translate acceleration readings to tilt angles.
 V Filter SoC.
 V Fix VBAT reading when audio sampling is off.
 V Use DMA for SPI.

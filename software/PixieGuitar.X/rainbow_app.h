@@ -7,7 +7,6 @@
 
 typedef struct {
   App app;
-  bool need_redraw;
   unsigned frame_count;
 } RainbowApp;
 

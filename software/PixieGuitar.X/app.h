@@ -7,8 +7,7 @@
 #include "gfx.h"
 
 #define APP_EV_MASK_AUDIO (1 << 0)
-#define APP_EV_MASK_ACC   (1 << 1)
-#define APP_EV_MASK_KNOB  (1 << 2)
+#define APP_EV_MASK_KNOB  (1 << 1)
 
 #define APP_CMD_MIN 0x0100
 
@@ -28,10 +27,11 @@ typedef struct _App {
   void (*OnTick)(struct _App * instance,
                  GfxRect const * region,
                  int16_t * audio_samples,
-                 int16_t acc[3],
+                 int16_t tilt,
                  int8_t knob_turn_delta,
                  int8_t knob_press_delta,
-                 uint8_t soc_percent);
+                 uint8_t soc_percent,
+                 bool force_redraw);
   void (*OnCommand)(struct _App * instance, AppCommand cmd);
 
   // private

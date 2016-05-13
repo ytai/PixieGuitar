@@ -15,7 +15,8 @@ void TitleBarInit(TitleBar * instance);
 void TitleBarDraw(TitleBar * instance,
                   GfxRect const * region,
                   char const * title,
-                  uint8_t soc_percent);
+                  uint8_t soc_percent,
+                  bool force_redraw);
 
 
 #endif  // TITLE_BAR_H

@@ -15,7 +15,6 @@ static void RainbowAppOnResume(App * instance) {
   assert(instance);
 
   RainbowApp * app = (RainbowApp *) instance;
-  app->need_redraw = true;
   app->frame_count = 0;
 }
 
@@ -24,15 +23,16 @@ static uint8_t chain[10 * 3];
 static void (RainbowAppOnTick) (App * instance,
                                 GfxRect const * region,
                                 int16_t * audio_samples,
-                                int16_t acc[3],
+                                int16_t tilt,
                                 int8_t knob_turn_delta,
                                 int8_t knob_press_delta,
-                                uint8_t soc_percent) {
+                                uint8_t soc_percent,
+                                bool force_redraw) {
   assert(instance);
 
   RainbowApp * app = (RainbowApp *) instance;
 
-  if (app->need_redraw) {
+  if (force_redraw) {
     GfxFill(region, RGB565(0,0,0));
 
     GfxDrawString(region,
@@ -41,7 +41,6 @@ static void (RainbowAppOnTick) (App * instance,
                   "Rainbow",
                   RGB565(0xff,0xff,0xff),
                   RGB565(0,0,0));
-    app->need_redraw = false;
   }
 
   uint8_t * p = &chain[0];

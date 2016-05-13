@@ -7,7 +7,6 @@
 typedef struct {
   App app;
   Widget * widget;
-  bool force_draw;
 } WidgetApp;
 
 App * WidgetAppInit(WidgetApp * instance,
