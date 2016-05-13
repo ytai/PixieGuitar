@@ -63,8 +63,7 @@ static uint16_t DemoAppOnStart(App * instance) {
 
   return APP_EV_MASK_ACC   |
          APP_EV_MASK_AUDIO |
-         APP_EV_MASK_KNOB  |
-         APP_EV_MASK_SOC;
+         APP_EV_MASK_KNOB;
 }
 
 static void DemoAppOnTick(App * instance,

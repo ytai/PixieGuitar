@@ -137,15 +137,12 @@ static void Tick(int16_t * audio_buffer) {
     knob_prev_pressed = pressed;
   }
 
-  uint8_t soc_percent;
-  if (active_app->_flags & APP_EV_MASK_SOC) {
-    float vbat = AnalogGetVbat();
-    // Very simplistic SoC model: assume that the voltage drops linearly with
-    // SoC between 4.1V and 3.6V per cell.
-    if (vbat < 7.2f) soc_percent = 0;
-    else if (vbat > 8.2f) soc_percent = 100;
-    else soc_percent = (uint8_t) ((vbat - 7.2f) * 100);
-  }
+  uint8_t soc_percent = 0;
+  float vbat = AnalogGetVbat();
+  // Very simplistic SoC model: assume that the voltage drops linearly with
+  // SoC between 4.1V and 3.6V per cell.
+  if      (vbat > 8.2f) soc_percent = 100;
+  else if (vbat > 7.2f) soc_percent = (uint8_t) ((vbat - 7.2f) * 100);
 
   GfxRect region = { 0, 0, DISPLAY_WIDTH, 16 };
 

@@ -9,7 +9,6 @@
 #define APP_EV_MASK_AUDIO (1 << 0)
 #define APP_EV_MASK_ACC   (1 << 1)
 #define APP_EV_MASK_KNOB  (1 << 2)
-#define APP_EV_MASK_SOC   (1 << 3)
 
 #define APP_CMD_MIN 0x0100
 

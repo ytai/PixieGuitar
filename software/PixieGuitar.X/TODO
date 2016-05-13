@@ -9,7 +9,6 @@ V IMU.
 V Encoder.
 
 Implementation:
-- Fix VBAT reading when audio sampling is off.
 - Filter SoC.
 - Translate acceleration readings to tilt angles.
 - Bucket frequencies into notes.
@@ -44,6 +43,7 @@ Implementation:
 ? Avoid spinlocks in LCD driver.
 ? OnReset() method to Widget.
 
+V Fix VBAT reading when audio sampling is off.
 V Use DMA for SPI.
 V Expose screen brightness API.
 V Console UART spin-locks. Use IRQ.
