@@ -52,6 +52,7 @@
       <itemPath>prng.h</itemPath>
       <itemPath>widget_app.h</itemPath>
       <itemPath>main_menu_app.h</itemPath>
+      <itemPath>app_cmd.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"

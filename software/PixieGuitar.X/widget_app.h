@@ -10,7 +10,10 @@ typedef struct {
   bool force_draw;
 } WidgetApp;
 
-App * WidgetAppInit(WidgetApp * instance, char const * title, Widget * widget);
+App * WidgetAppInit(WidgetApp * instance,
+                    char const * title,
+                    void (*on_command)(App *, AppCommand),
+                    Widget * widget);
 
 
 #endif  // WIDGET_APP_H

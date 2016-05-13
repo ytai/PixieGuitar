@@ -33,12 +33,16 @@ static void WidgetAppOnTick(App * instance,
   me->force_draw = false;
 }
 
-App * WidgetAppInit(WidgetApp * instance, char const * title, Widget * widget) {
+App * WidgetAppInit(WidgetApp * instance,
+                    char const * title,
+                    void (*on_command)(App *, AppCommand),
+                    Widget * widget) {
   memset(&instance->app, 0, sizeof(instance->app));
   instance->app.title = title;
   instance->app.OnStart = WidgetAppOnStart;
   instance->app.OnResume = WidgetAppOnResume;
   instance->app.OnTick = WidgetAppOnTick;
+  instance->app.OnCommand = on_command;
 
   instance->widget = widget;
 
