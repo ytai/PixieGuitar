@@ -16,11 +16,12 @@
 #include "time.h"
 #include "title_bar.h"
 
-#define CMD_TICK        0x0000
-#define CMD_PUSH_APP    0x0001
-#define CMD_POP_APP     0x0002
-#define CMD_SWITCH_APP  0x0003
-#define CMD_UNMASK_TICK 0x0004
+#define CMD_NOP         0x0000
+#define CMD_TICK        0x0001
+#define CMD_PUSH_APP    0x0002
+#define CMD_POP_APP     0x0003
+#define CMD_SWITCH_APP  0x0004
+#define CMD_UNMASK_TICK 0x0005
 
 static App * active_app = NULL;
 static uint8_t knob_prev_pos;
@@ -179,7 +180,7 @@ static void ProcessPendingCommand() {
     default:
       assert(command.cmd >= APP_CMD_MIN);
       if (active_app && active_app->OnCommand) {
-        active_app->OnCommand(active_app, &command);
+        active_app->OnCommand(active_app, command);
       }
   }
 }
@@ -212,22 +213,24 @@ void AppTaskInit(App * main_app) {
 
 AppCommand AppCommandSwitch(App * app) {
   assert(app);
-  AppCommand cmd = { CMD_SWITCH_APP, (uint16_t) app };
-  return cmd;
+  return (AppCommand) {CMD_SWITCH_APP, (uint16_t) app};
 }
 
 AppCommand AppCommandPush(App * app) {
   assert(app);
-  AppCommand cmd = { CMD_PUSH_APP, (uint16_t) app };
-  return cmd;
+  return (AppCommand) {CMD_PUSH_APP, (uint16_t) app};
 }
 
 AppCommand AppCommandPop() {
-  AppCommand cmd = { CMD_POP_APP };
-  return cmd;
+  return (AppCommand) {CMD_POP_APP};
+}
+
+AppCommand AppCommandNop() {
+  return (AppCommand) {CMD_NOP};
 }
 
 void AppPostCommand(AppCommand cmd) {
+  if (cmd.cmd == CMD_NOP) return;
   Error e = QueuePushBack(command_queue, &cmd);
   assert(e == ERROR_NONE);
 }

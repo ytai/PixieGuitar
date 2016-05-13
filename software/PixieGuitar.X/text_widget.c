@@ -31,8 +31,8 @@ static bool TextWidgetOnTick(Widget * instance,
   }
 
   bool released = knob_press_delta < 0;
-  if (released && me->_cmd) {
-    AppPostCommand(*me->_cmd);
+  if (released) {
+    AppPostCommand(me->_cmd);
   }
   return released;
 }
@@ -45,7 +45,7 @@ void TextWidgetInit(TextWidget * instance,
                     uint16_t color_bg_active,
                     uint16_t color_fg_inactive,
                     uint16_t color_fg_active,
-                    AppCommand const * cmd) {
+                    AppCommand cmd) {
   assert(instance);
   assert(str);
 

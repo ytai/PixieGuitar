@@ -12,9 +12,6 @@ static RainbowApp rainbow_app;
 App * MainMenuAppInit(MainMenuApp * instance) {
   assert(instance);
 
-  instance->demo_cmd = AppCommandPush(DemoAppInit());
-  instance->rainbow_cmd = AppCommandPush(RainbowAppInit(&rainbow_app));
-
 #define WHITE RGB565(0xFF, 0xFF, 0xFF)
 #define BLACK RGB565(0x00, 0x00, 0x00)
 #define GRAY  RGB565(0xC0, 0xC0, 0xC0)
@@ -40,9 +37,9 @@ App * MainMenuAppInit(MainMenuApp * instance) {
                    Hsv2Rgb565(h, 0xFF, 0x80),
                    GRAY,
                    WHITE,
-                   i == 2 ? &instance->demo_cmd  :
-                   i == 3 ? &instance->rainbow_cmd :
-                            NULL);
+                   i == 2 ? AppCommandPush(DemoAppInit())  :
+                   i == 3 ? AppCommandPush(RainbowAppInit(&rainbow_app)) :
+                            AppCommandNop());
     instance->textp[i] = &instance->texts[i].widget;
   }
 

@@ -33,7 +33,7 @@ typedef struct _App {
                  int8_t knob_turn_delta,
                  int8_t knob_press_delta,
                  uint8_t soc_percent);
-  void (*OnCommand)(struct _App * instance, AppCommand const * cmd);
+  void (*OnCommand)(struct _App * instance, AppCommand cmd);
 
   // private
   struct _App * _parent;
@@ -45,6 +45,7 @@ void AppTaskInit(App * main_app);
 AppCommand AppCommandSwitch(App * app);
 AppCommand AppCommandPush(App * app);
 AppCommand AppCommandPop();
+AppCommand AppCommandNop();
 
 void AppPostCommand(AppCommand cmd);
 

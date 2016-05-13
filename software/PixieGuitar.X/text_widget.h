@@ -14,7 +14,7 @@ typedef struct {
   uint16_t _color_bg_active;
   uint16_t _color_fg_inactive;
   uint16_t _color_fg_active;
-  AppCommand const * _cmd;
+  AppCommand _cmd;
   WidgetState _last_drawn_state;
 } TextWidget;
 
@@ -26,7 +26,7 @@ void TextWidgetInit(TextWidget * instance,
                     uint16_t color_bg_active,
                     uint16_t color_fg_inactive,
                     uint16_t color_fg_active,
-                    AppCommand const * cmd);
+                    AppCommand cmd);
 
 #endif  // TEXT_WIDGET_H
 

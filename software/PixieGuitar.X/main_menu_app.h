@@ -8,8 +8,6 @@
 typedef struct {
   WidgetApp app;
 
-  AppCommand demo_cmd;
-  AppCommand rainbow_cmd;
   VerticalWidgetList list;
   TextWidget texts[8];
   Widget * textp[8];
