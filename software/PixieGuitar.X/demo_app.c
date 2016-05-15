@@ -4,12 +4,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <dsp.h>
-
 #include <FreeRTOS.h>
 #include <task.h>
 
 #include "analog.h"
+#include "audio_proc.h"
 #include "app.h"
 #include "chain.h"
 #include "display.h"
@@ -20,10 +19,6 @@
 #include "sync.h"
 #include "time.h"
 
-static fractcomplex twiddle[ANALOG_BUFFER_LEN / 2] __attribute__((space(xmemory)));
-static fractcomplex complex_buf[ANALOG_BUFFER_LEN] __attribute__((space(ymemory)));
-static fractional window[ANALOG_BUFFER_LEN] __attribute__((space(ymemory)));
-
 static uint8_t pixie_buf[30];
 
 static void PixieClear() {
@@ -32,7 +27,7 @@ static void PixieClear() {
 
 static void PixieSetColor(unsigned index, uint8_t hue, uint8_t brightness) {
   index *= 3;
-  Rgb888 c = Hsv2Rgb888((uint16_t) hue * 6, 0xFF, brightness);
+  Rgb888 c = Hsv2Rgb888((uint16_t) hue * 64, 0xFF, brightness);
   pixie_buf[index + 0] = RGB888_R(c);
   pixie_buf[index + 1] = RGB888_G(c);
   pixie_buf[index + 2] = RGB888_B(c);
@@ -73,54 +68,36 @@ static void DemoAppOnTick(App * instance,
 
   if (knob_press_delta < 0) AppPostCommand(AppCommandPop());
 
-  char info_str[16];
-  snprintf(info_str, sizeof(info_str), "Tilt=%+03d P=%03d", tilt, app->knob_turn);
+  int16_t * bucket_pitch;
+  int16_t * bucket_full;
+  int16_t * bucket_octave;
 
-  VectorWindow(ANALOG_BUFFER_LEN, audio_samples, audio_samples, window);
-  for (unsigned i = 0; i < ANALOG_BUFFER_LEN; ++i) {
-    complex_buf[i].real = audio_samples[i] * app->knob_turn;
-    complex_buf[i].imag = 0;
-  }
-
-  FFTComplexIP(ANALOG_LOG2_BUFFER_LEN, complex_buf, twiddle, COEFFS_IN_DATA);
-  BitReverseComplex(ANALOG_LOG2_BUFFER_LEN, complex_buf);
-  SquareMagnitudeCplx(ANALOG_BUFFER_LEN, complex_buf, audio_samples);
+  AudioProcAnalyzePitch(audio_samples,
+                        app->knob_turn,
+                        &bucket_pitch,
+                        &bucket_full,
+                        &bucket_octave);
 
   uint16_t max_volume = 0;
   uint8_t max_index = 0;
-  for (uint8_t i = 0; i < 64; ++i) {
-    if (audio_samples[i + 4] > max_volume) {
+  for (uint8_t i = 0; i < BUCKET_COUNT; ++i) {
+    if (bucket_octave[i] > max_volume) {
       max_index = i;
-      max_volume = audio_samples[i + 4];
+      max_volume = bucket_octave[i];
     }
   }
-  max_volume *= app->knob_turn;
+
   if (max_volume > 255) max_volume = 255;
   PixieClear();
-  PixieSetColor(PrngGenerate8() % 10, max_index << 2, max_volume);
+  PixieSetColor(PrngGenerate8() % 10, max_index, max_volume);
   ChainWrite(pixie_buf, sizeof(pixie_buf));
 
-  int16_t const * p = audio_samples;
-  for (int y = 16; y < region->h; ++y) {
-    int16_t sample = *p++;
-//          uint8_t x = sample >> 9 ;
-//          line[x] = RGB565(0xff, 0xff, 0x00);
-//          DisplayCopyRect(0, y, 128, 1, line);
-//          line[x] = 0;
-    uint8_t x = sample * app->knob_turn;
-    if (x > 128) x = 128;
-    GfxDrawHorizontalLine(region, 0, y, x, RGB565(0xff, 0xff, 0x00));
-    GfxDrawHorizontalLine(region, x, y, 128 - x, RGB565(0x00, 0x00, 0x00));
+  if (force_redraw) {
+    GfxFill(region, RGB565(0, 0, 0));
   }
 
-  if (force_redraw) {
-    GfxFillRect(region,
-                0,
-                0,
-                region->w - 16,
-                16,
-                RGB565(0, 0, 0));
-  }
+  char info_str[16];
+  snprintf(info_str, sizeof(info_str), "Tilt=%+03d P=%03d", tilt, app->knob_turn);
   GfxDrawString(region,
                 10,
                 1,
@@ -128,14 +105,46 @@ static void DemoAppOnTick(App * instance,
                 app->knob_pressed ? RGB565(0x00, 0xff, 0x00) : RGB565(0xff, 0xff, 0xff),
                 RGB565(0, 0, 0));
 
+  {
+    GfxRect sub;
+    GfxSubRegion(region, 0, 16, region->w, 32, &sub);
+    for (unsigned i = 0; i < PITCH_COUNT; ++i) {
+      int16_t y = bucket_pitch[i];
+      if (y < 0) y = 0;
+      if (y > 32) y = 32;
+      GfxDrawVerticalLine(&sub, i, 0, 32 - y, RGB565(0x00, 0x00, 0x00));
+      GfxDrawVerticalLine(&sub, i, 32 - y, y, RGB565(0x00, 0xff, 0x00));
+    }
+  }
+
+  {
+    GfxRect sub;
+    GfxSubRegion(region, 0, 48, region->w, 32, &sub);
+    for (unsigned i = 0; i < BUCKET_COUNT; ++i) {
+      int16_t y = bucket_full[i];
+      if (y < 0) y = 0;
+      if (y > 32) y = 32;
+      GfxDrawVerticalLine(&sub, i, 0, 32 - y, RGB565(0x00, 0x00, 0x00));
+      GfxDrawVerticalLine(&sub, i, 32 - y, y, RGB565(0xff, 0xff, 0x00));
+    }
+  }
+
+  {
+    GfxRect sub;
+    GfxSubRegion(region, 0, 80, region->w, 32, &sub);
+    for (unsigned i = 0; i < BUCKET_COUNT; ++i) {
+      int16_t y = bucket_octave[i];
+      if (y < 0) y = 0;
+      if (y > 32) y = 32;
+      GfxDrawVerticalLine(&sub, i, 0, 32 - y, RGB565(0x00, 0x00, 0x00));
+      GfxDrawVerticalLine(&sub, i, 32 - y, y, RGB565(0xff, 0x00, 0x00));
+    }
+  }
 }
 
 static DemoApp demo_app;
 
 App * DemoAppInit() {
-  TwidFactorInit(ANALOG_LOG2_BUFFER_LEN, twiddle, 0);
-  HanningInit(ANALOG_BUFFER_LEN, window);
-
   memset(&demo_app, 0, sizeof(demo_app));
   demo_app.app.title = "Demo Application";
   demo_app.app.OnStart = DemoAppOnStart;

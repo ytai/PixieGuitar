@@ -8,6 +8,7 @@
 #include <task.h>
 
 #include "analog.h"
+#include "audio_proc.h"
 #include "display.h"
 #include "gfx.h"
 #include "imu.h"
@@ -231,6 +232,7 @@ static void AppTask(void * p) {
   KnobInit();
   ImuInit();
   ImuOn();
+  AudioProcInit();
   DisplayInit();
   GfxFill(&gfx_full_screen, RGB565(0, 0, 0));
   DisplaySetBacklight(0xFFFF);

@@ -9,7 +9,7 @@ V IMU.
 V Encoder.
 
 Implementation:
-- Bucket frequencies into notes.
+- Improve audio processing.
 - Watchdog.
 - Power off / watchdog reset on long click.
 - Power off on low battery.
@@ -40,6 +40,7 @@ Implementation:
 ? Avoid spinlocks in LCD driver.
 ? OnReset() method to Widget.
 
+V Bucket frequencies into notes.
 V Flip screen on tilt.
 V Translate acceleration readings to tilt angles.
 V Filter SoC.

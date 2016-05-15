@@ -53,6 +53,9 @@
       <itemPath>widget_app.h</itemPath>
       <itemPath>main_menu_app.h</itemPath>
       <itemPath>app_cmd.h</itemPath>
+      <itemPath>bucket_freq.inl</itemPath>
+      <itemPath>gains.inl</itemPath>
+      <itemPath>audio_proc.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -102,6 +105,7 @@
       <itemPath>prng.c</itemPath>
       <itemPath>widget_app.c</itemPath>
       <itemPath>main_menu_app.c</itemPath>
+      <itemPath>audio_proc.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
