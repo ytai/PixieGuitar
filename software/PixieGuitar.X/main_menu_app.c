@@ -42,19 +42,19 @@ App * MainMenuAppInit(MainMenuApp * instance) {
 
   for (size_t i = 0; i < 8; ++i) {
     uint16_t h = 1535 * i / 8;
-    TextWidgetInit(&instance->texts[i],
-                   strings[i],
-                   DISPLAY_WIDTH,
-                   16,
-                   BLACK,
-                   Hsv2Rgb565(h, 0xFF, 0x80),
-                   GRAY,
-                   WHITE,
-                   i == 2 ? AppCommandPush(DemoAppInit())  :
-                   i == 3 ? AppCommandPush(RainbowAppInit(&rainbow_app)) :
-                   i == 7 ? (AppCommand) { APP_CMD_POWER_OFF } :
-                            AppCommandNop());
-    instance->textp[i] = &instance->texts[i].widget;
+    instance->textp[i] = TextWidgetInit(
+        &instance->texts[i],
+        strings[i],
+        DISPLAY_WIDTH,
+        16,
+        BLACK,
+        Hsv2Rgb565(h, 0xFF, 0x80),
+        GRAY,
+        WHITE,
+        i == 2 ? AppCommandPush(DemoAppInit())  :
+        i == 3 ? AppCommandPush(RainbowAppInit(&rainbow_app)) :
+        i == 7 ? (AppCommand) { APP_CMD_POWER_OFF } :
+                 AppCommandNop());
   }
 
   VerticalWidgetListInit(&instance->list, instance->textp, 8);

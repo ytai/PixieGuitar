@@ -37,15 +37,15 @@ static bool TextWidgetOnTick(Widget * instance,
   return released;
 }
 
-void TextWidgetInit(TextWidget * instance,
-                    char const * str,
-                    unsigned width,
-                    unsigned height,
-                    uint16_t color_bg_inactive,
-                    uint16_t color_bg_active,
-                    uint16_t color_fg_inactive,
-                    uint16_t color_fg_active,
-                    AppCommand cmd) {
+Widget * TextWidgetInit(TextWidget * instance,
+                        char const * str,
+                        unsigned width,
+                        unsigned height,
+                        uint16_t color_bg_inactive,
+                        uint16_t color_bg_active,
+                        uint16_t color_fg_inactive,
+                        uint16_t color_fg_active,
+                        AppCommand cmd) {
   assert(instance);
   assert(str);
 
@@ -59,4 +59,6 @@ void TextWidgetInit(TextWidget * instance,
   instance->_color_fg_inactive = color_fg_inactive;
   instance->_color_fg_active = color_fg_active;
   instance->_cmd = cmd;
+
+  return &instance->widget;
 }

@@ -18,15 +18,15 @@ typedef struct {
   WidgetState _last_drawn_state;
 } TextWidget;
 
-void TextWidgetInit(TextWidget * instance,
-                    char const * str,
-                    unsigned width,
-                    unsigned height,
-                    uint16_t color_bg_inactive,
-                    uint16_t color_bg_active,
-                    uint16_t color_fg_inactive,
-                    uint16_t color_fg_active,
-                    AppCommand cmd);
+Widget * TextWidgetInit(TextWidget * instance,
+                        char const * str,
+                        unsigned width,
+                        unsigned height,
+                        uint16_t color_bg_inactive,
+                        uint16_t color_bg_active,
+                        uint16_t color_fg_inactive,
+                        uint16_t color_fg_active,
+                        AppCommand cmd);
 
 #endif  // TEXT_WIDGET_H
 
