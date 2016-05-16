@@ -56,6 +56,7 @@
       <itemPath>bucket_freq.inl</itemPath>
       <itemPath>gains.inl</itemPath>
       <itemPath>audio_proc.h</itemPath>
+      <itemPath>number_widget.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -106,6 +107,7 @@
       <itemPath>widget_app.c</itemPath>
       <itemPath>main_menu_app.c</itemPath>
       <itemPath>audio_proc.c</itemPath>
+      <itemPath>number_widget.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
