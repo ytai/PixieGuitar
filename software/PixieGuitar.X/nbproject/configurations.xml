@@ -59,6 +59,7 @@
       <itemPath>enum_widget.h</itemPath>
       <itemPath>shell_util.h</itemPath>
       <itemPath>util.h</itemPath>
+      <itemPath>palette.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -111,6 +112,7 @@
       <itemPath>number_widget.c</itemPath>
       <itemPath>enum_widget.c</itemPath>
       <itemPath>shell_util.c</itemPath>
+      <itemPath>palette.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

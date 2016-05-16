@@ -24,6 +24,9 @@ typedef uint32_t Rgb888;
 Rgb888 Hsv2Rgb888(uint16_t h, uint8_t s, uint8_t v);
 Rgb888 Hsv2Rgb565(uint16_t h, uint8_t s, uint8_t v);
 
+Rgb888 Rgb888Scale(Rgb888 c, uint8_t v);
+Rgb565 Rgb565Scale(Rgb565 c, uint8_t v);
+
 #define RGB565_BLACK      RGB565(0x00, 0x00, 0x00)
 #define RGB565_WHITE      RGB565(0xFF, 0xFF, 0xFF)
 #define RGB565_GRAY       RGB565(0x80, 0x80, 0x80)

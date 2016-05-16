@@ -47,3 +47,14 @@ Rgb888 Hsv2Rgb565(uint16_t h, uint8_t s, uint8_t v) {
   return RGB888TO565(rgb888);
 }
 
+Rgb888 Rgb888Scale(Rgb888 c, uint8_t v) {
+  return RGB888(MulU8U8U8(RGB888_R(c), v),
+                MulU8U8U8(RGB888_G(c), v),
+                MulU8U8U8(RGB888_B(c), v));
+}
+
+Rgb565 Rgb565Scale(Rgb565 c, uint8_t v) {
+  return RGB565(MulU8U8U8(RGB565_R(c), v),
+                MulU8U8U8(RGB565_G(c), v),
+                MulU8U8U8(RGB565_B(c), v));
+}

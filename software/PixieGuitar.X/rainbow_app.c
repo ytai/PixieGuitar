@@ -7,6 +7,8 @@
 #include "display.h"
 #include "text_widget.h"
 #include "util.h"
+#include "palette.h"
+#include "base_macros.h"
 
 static uint16_t RainbowAppOnStart(App * instance) {
   assert(instance);
@@ -38,11 +40,11 @@ static void (RainbowAppOnTick) (App * instance,
 
   uint8_t brightness = app->brightness_widget.val * 255 / 100;
 
-  uint16_t h = app->frame_count;
+  uint8_t c = app->frame_count;
   for (unsigned i = 0; i < 10; ++i) {
-    h += app->diversity_widget.val * 3;
-    if (h >= 1536) h -= 1536;
-    Rgb888 color = Hsv2Rgb888(h, 0xFF, brightness);
+    c += app->diversity_widget.val;
+    Rgb888 color = PaletteGetRgb888(app->palette_widget.val, c);
+    color = Rgb888Scale(color, brightness);
     *p++ = RGB888_R(color);
     *p++ = RGB888_G(color);
     *p++ = RGB888_B(color);
@@ -50,7 +52,6 @@ static void (RainbowAppOnTick) (App * instance,
   ChainWrite(chain, sizeof(chain));
 
   app->frame_count += app->speed_widget.val;
-  if (app->frame_count >= 1536) app->frame_count -= 1536;
 
   app->widget->OnTick(app->widget,
                       region,
@@ -79,7 +80,21 @@ App * RainbowAppInit(RainbowApp * instance) {
                                         RGB565_WHITE,
                                         AppCommandPop());
 
-  instance->widgets[1] = NumberWidgetInit(&instance->brightness_widget,
+  instance->widgets[1] = EnumWidgetInit(&instance->palette_widget,
+                                        "Palette",
+                                        DISPLAY_WIDTH,
+                                        16,
+                                        ENUM_WIDGET_TURN_WRAP,
+                                        palette_names,
+                                        ARRAY_LEN(palette_names),
+                                        0,
+                                        RGB565_BLACK,
+                                        RGB565_DARK_GRAY,
+                                        RGB565_LIGHT_GRAY,
+                                        RGB565_WHITE,
+                                        0);
+
+  instance->widgets[2] = NumberWidgetInit(&instance->brightness_widget,
                                           "Brightness",
                                           DISPLAY_WIDTH,
                                           16,
@@ -93,28 +108,28 @@ App * RainbowAppInit(RainbowApp * instance) {
                                           RGB565_WHITE,
                                           0);
 
-  instance->widgets[2] = NumberWidgetInit(&instance->speed_widget,
+  instance->widgets[3] = NumberWidgetInit(&instance->speed_widget,
                                           "Speed",
                                           DISPLAY_WIDTH,
                                           16,
-                                          20,
-                                          5,
+                                          2,
+                                          1,
                                           0,
-                                          100,
+                                          20,
                                           RGB565_BLACK,
                                           RGB565_DARK_GRAY,
                                           RGB565_LIGHT_GRAY,
                                           RGB565_WHITE,
                                           0);
 
-  instance->widgets[3] = NumberWidgetInit(&instance->diversity_widget,
+  instance->widgets[4] = NumberWidgetInit(&instance->diversity_widget,
                                           "Diversity",
                                           DISPLAY_WIDTH,
                                           16,
                                           20,
                                           5,
                                           0,
-                                          100,
+                                          50,
                                           RGB565_BLACK,
                                           RGB565_DARK_GRAY,
                                           RGB565_LIGHT_GRAY,
