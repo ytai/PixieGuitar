@@ -24,6 +24,17 @@ typedef uint32_t Rgb888;
 Rgb888 Hsv2Rgb888(uint16_t h, uint8_t s, uint8_t v);
 Rgb888 Hsv2Rgb565(uint16_t h, uint8_t s, uint8_t v);
 
+#define RGB565_BLACK      RGB565(0x00, 0x00, 0x00)
+#define RGB565_WHITE      RGB565(0xFF, 0xFF, 0xFF)
+#define RGB565_GRAY       RGB565(0x80, 0x80, 0x80)
+#define RGB565_LIGHT_GRAY RGB565(0xC0, 0xC0, 0xC0)
+#define RGB565_DARK_GRAY  RGB565(0x40, 0x40, 0x40)
+#define RGB565_RED        RGB565(0xFF, 0x00, 0x00)
+#define RGB565_GREEN      RGB565(0x00, 0xFF, 0x00)
+#define RGB565_BLUE       RGB565(0x00, 0x00, 0xFF)
+#define RGB565_YELLOW     RGB565(0xFF, 0xFF, 0x00)
+#define RGB565_PURPLE     RGB565(0xFF, 0x00, 0xFF)
+#define RGB565_CYAN       RGB565(0x00, 0xFF, 0xFF)
 
 #endif  // COLOR_H
 
