@@ -3,7 +3,7 @@
 
 #include "color.h"
 
-#define PALETTE_COUNT 4
+#define PALETTE_COUNT 7
 
 extern char const * const palette_names[PALETTE_COUNT];
 
