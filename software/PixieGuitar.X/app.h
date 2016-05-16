@@ -30,7 +30,6 @@ typedef struct _App {
                  int16_t tilt,
                  int8_t knob_turn_delta,
                  int8_t knob_press_delta,
-                 uint8_t soc_percent,
                  bool force_redraw);
   void (*OnCommand)(struct _App * instance, AppCommand cmd);
 

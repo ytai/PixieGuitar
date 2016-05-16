@@ -199,7 +199,6 @@ static void Tick(int16_t * audio_buffer) {
                      neck_tilt,
                      knob_turn_delta,
                      knob_press_delta,
-                     soc_percent,
                      force_redraw);
   force_redraw = false;
 }
