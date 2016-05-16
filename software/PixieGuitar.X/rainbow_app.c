@@ -70,17 +70,7 @@ App * RainbowAppInit(RainbowApp * instance) {
   app->OnResume = RainbowAppOnResume;
   app->OnTick = RainbowAppOnTick;
 
-  instance->widgets[0] = TextWidgetInit(&instance->exit_widget,
-                                        "Exit",
-                                        DISPLAY_WIDTH,
-                                        16,
-                                        RGB565_BLACK,
-                                        RGB565_DARK_GRAY,
-                                        RGB565_LIGHT_GRAY,
-                                        RGB565_WHITE,
-                                        AppCommandPop());
-
-  instance->widgets[1] = EnumWidgetInit(&instance->palette_widget,
+  instance->widgets[0] = EnumWidgetInit(&instance->palette_widget,
                                         "Palette",
                                         DISPLAY_WIDTH,
                                         16,
@@ -94,7 +84,7 @@ App * RainbowAppInit(RainbowApp * instance) {
                                         RGB565_WHITE,
                                         0);
 
-  instance->widgets[2] = NumberWidgetInit(&instance->brightness_widget,
+  instance->widgets[1] = NumberWidgetInit(&instance->brightness_widget,
                                           "Brightness",
                                           DISPLAY_WIDTH,
                                           16,
@@ -108,7 +98,7 @@ App * RainbowAppInit(RainbowApp * instance) {
                                           RGB565_WHITE,
                                           0);
 
-  instance->widgets[3] = NumberWidgetInit(&instance->speed_widget,
+  instance->widgets[2] = NumberWidgetInit(&instance->speed_widget,
                                           "Speed",
                                           DISPLAY_WIDTH,
                                           16,
@@ -122,7 +112,7 @@ App * RainbowAppInit(RainbowApp * instance) {
                                           RGB565_WHITE,
                                           0);
 
-  instance->widgets[4] = NumberWidgetInit(&instance->diversity_widget,
+  instance->widgets[3] = NumberWidgetInit(&instance->diversity_widget,
                                           "Diversity",
                                           DISPLAY_WIDTH,
                                           16,
@@ -135,6 +125,16 @@ App * RainbowAppInit(RainbowApp * instance) {
                                           RGB565_LIGHT_GRAY,
                                           RGB565_WHITE,
                                           0);
+
+  instance->widgets[4] = TextWidgetInit(&instance->exit_widget,
+                                        "Exit",
+                                        DISPLAY_WIDTH,
+                                        16,
+                                        RGB565_BLACK,
+                                        RGB565_DARK_GRAY,
+                                        RGB565_LIGHT_GRAY,
+                                        RGB565_WHITE,
+                                        AppCommandPop());
 
   instance->widget = VerticalWidgetListInit(&instance->widget_list,
                                             instance->widgets,
