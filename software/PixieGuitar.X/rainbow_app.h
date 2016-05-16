@@ -12,6 +12,7 @@
 typedef struct {
   App app;
   uint8_t frame_count;
+  int16_t prev_tilt;
 
   EnumWidget palette_widget;
   TextWidget exit_widget;

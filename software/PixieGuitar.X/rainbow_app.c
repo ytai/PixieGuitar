@@ -21,6 +21,7 @@ static void RainbowAppOnResume(App * instance) {
 
   RainbowApp * app = (RainbowApp *) instance;
   app->frame_count = 0;
+  app->prev_tilt = 0x7fff;
 }
 
 static uint8_t chain[10 * 3];
@@ -40,18 +41,27 @@ static void (RainbowAppOnTick) (App * instance,
 
   uint8_t brightness = app->brightness_widget.val * 255 / 100;
 
-  uint8_t c = app->frame_count;
-  for (unsigned i = 0; i < 10; ++i) {
-    c += app->diversity_widget.val;
-    Rgb888 color = PaletteGetRgb888(app->palette_widget.val, c);
-    color = Rgb888Scale(color, brightness);
-    *p++ = RGB888_R(color);
-    *p++ = RGB888_G(color);
-    *p++ = RGB888_B(color);
+  int16_t delta_tilt = app->prev_tilt == 0x7FFF ? 0 : tilt - app->prev_tilt;
+
+  if (delta_tilt > 5) {
+    // Lightning strike!
+    memset(chain, brightness, sizeof(chain));
+  } else {
+    uint8_t c = app->frame_count;
+    for (unsigned i = 0; i < 10; ++i) {
+      c += app->diversity_widget.val;
+      Rgb888 color = PaletteGetRgb888(app->palette_widget.val, c);
+      color = Rgb888Scale(color, brightness);
+      *p++ = RGB888_R(color);
+      *p++ = RGB888_G(color);
+      *p++ = RGB888_B(color);
+    }
   }
+
   ChainWrite(chain, sizeof(chain));
 
   app->frame_count += app->speed_widget.val;
+  app->prev_tilt = tilt;
 
   app->widget->OnTick(app->widget,
                       region,
