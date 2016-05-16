@@ -16,9 +16,9 @@ typedef struct {
   size_t _highlighted_child;
 } VerticalWidgetList;
 
-void VerticalWidgetListInit(VerticalWidgetList * instance,
-                            Widget * const * children,
-                            size_t children_count);
+Widget * VerticalWidgetListInit(VerticalWidgetList * instance,
+                                Widget * const * children,
+                                size_t children_count);
 
 #endif  // VERTICAL_WIDGET_LIST_H
 

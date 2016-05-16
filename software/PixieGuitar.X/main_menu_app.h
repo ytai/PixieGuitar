@@ -10,7 +10,7 @@ typedef struct {
 
   VerticalWidgetList list;
   TextWidget texts[8];
-  Widget * textp[8];
+  Widget * widgets[8];
 } MainMenuApp;
 
 App * MainMenuAppInit(MainMenuApp * instance);

@@ -42,7 +42,7 @@ App * MainMenuAppInit(MainMenuApp * instance) {
 
   for (size_t i = 0; i < 8; ++i) {
     uint16_t h = 1535 * i / 8;
-    instance->textp[i] = TextWidgetInit(
+    instance->widgets[i] = TextWidgetInit(
         &instance->texts[i],
         strings[i],
         DISPLAY_WIDTH,
@@ -57,11 +57,12 @@ App * MainMenuAppInit(MainMenuApp * instance) {
                  AppCommandNop());
   }
 
-  VerticalWidgetListInit(&instance->list, instance->textp, 8);
+  Widget * widget = VerticalWidgetListInit(&instance->list,
+                                           instance->widgets, 8);
 
   return WidgetAppInit(&instance->app,
                        "Main Menu",
                        MainMenuAppOnCommand,
-                       &instance->list.widget);
+                       widget);
 }
 

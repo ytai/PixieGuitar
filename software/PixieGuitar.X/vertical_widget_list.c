@@ -62,9 +62,9 @@ static bool VerticalWidgetListOnTick(Widget * instance,
   return false;
 }
 
-void VerticalWidgetListInit(VerticalWidgetList * instance,
-                            Widget * const * children,
-                            size_t children_count) {
+Widget * VerticalWidgetListInit(VerticalWidgetList * instance,
+                                Widget * const * children,
+                                size_t children_count) {
   assert(instance);
   assert(children || !children_count);
 
@@ -85,4 +85,6 @@ void VerticalWidgetListInit(VerticalWidgetList * instance,
   instance->_children_count = children_count;
   instance->_child_active = false;
   instance->_highlighted_child = 0;
+
+  return &instance->widget;
 }
