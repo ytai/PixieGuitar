@@ -58,6 +58,7 @@
       <itemPath>number_widget.h</itemPath>
       <itemPath>enum_widget.h</itemPath>
       <itemPath>shell_util.h</itemPath>
+      <itemPath>util.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
