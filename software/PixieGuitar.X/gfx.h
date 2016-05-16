@@ -71,6 +71,13 @@ void GfxDrawString(GfxRect const * region,
                    Rgb565 fg_color,
                    Rgb565 bg_color);
 
+void GfxDrawStringRightAlign(GfxRect const * region,
+                             int x,
+                             int y,
+                             char const * str,
+                             Rgb565 fg_color,
+                             Rgb565 bg_color);
+
 void GfxDrawChar(GfxRect const * region,
                  int x,
                  int y,

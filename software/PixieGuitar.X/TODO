@@ -20,7 +20,6 @@ Implementation:
   pointer. For the time being, it is disabled by a build flag.
 - Go over TODOs in the code.
 - Add acc reading to demo app.
-- Widgets for app GUI.
 - Apps:
   - Rainbow: add control of speed and intensity from GUI.
   - Fireworks: N channels, at every tick the peak in the spectrum can override
@@ -40,6 +39,7 @@ Implementation:
 ? Avoid spinlocks in LCD driver.
 ? OnReset() method to Widget.
 
+V Widgets for app GUI.
 V Bucket frequencies into notes.
 V Flip screen on tilt.
 V Translate acceleration readings to tilt angles.

@@ -1,6 +1,7 @@
 #include "gfx.h"
 
 #include <assert.h>
+#include <string.h>
 
 #include "display.h"
 #include "font.h"
@@ -258,6 +259,17 @@ void GfxDrawString(GfxRect const * region,
     x += 6;
     ++str;
   }
+}
+
+void GfxDrawStringRightAlign(GfxRect const * region,
+                             int x,
+                             int y,
+                             char const * str,
+                             Rgb565 fg_color,
+                             Rgb565 bg_color) {
+  size_t len = strlen(str);
+  x -= (6 * len - 2);
+  GfxDrawString(region, x, y, str, fg_color, bg_color);
 }
 
 void GfxDrawChar(GfxRect const * region,
