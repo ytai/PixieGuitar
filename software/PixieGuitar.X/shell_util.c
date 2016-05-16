@@ -25,7 +25,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "util.h"
+#include "shell_util.h"
 
 /******************************************************************************/
 int8_t parse_hex_nibble(char byte) {

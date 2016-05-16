@@ -27,7 +27,6 @@
       <itemPath>chain.h</itemPath>
       <itemPath>font.h</itemPath>
       <itemPath>shell.h</itemPath>
-      <itemPath>util.h</itemPath>
       <itemPath>read_line.h</itemPath>
       <itemPath>shell_task.h</itemPath>
       <itemPath>module.h</itemPath>
@@ -58,6 +57,7 @@
       <itemPath>audio_proc.h</itemPath>
       <itemPath>number_widget.h</itemPath>
       <itemPath>enum_widget.h</itemPath>
+      <itemPath>shell_util.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -84,7 +84,6 @@
       <itemPath>console.c</itemPath>
       <itemPath>chain.c</itemPath>
       <itemPath>shell.c</itemPath>
-      <itemPath>util.c</itemPath>
       <itemPath>read_line.c</itemPath>
       <itemPath>shell_task.c</itemPath>
       <itemPath>module.c</itemPath>
@@ -110,6 +109,7 @@
       <itemPath>audio_proc.c</itemPath>
       <itemPath>number_widget.c</itemPath>
       <itemPath>enum_widget.c</itemPath>
+      <itemPath>shell_util.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

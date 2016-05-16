@@ -4,7 +4,7 @@
 #include <task.h>
 #include <xc.h>
 
-#include "util.h"
+#include "shell_util.h"
 
 static int Reboot(int argc, const char **argv) {
   switch (argc) {

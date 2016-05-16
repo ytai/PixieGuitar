@@ -9,8 +9,8 @@
 #include <libpic30.h>
 
 #include "shell.h"
+#include "shell_util.h"
 #include "sync.h"
-#include "util.h"
 
 typedef enum {
   STATE_IDLE,

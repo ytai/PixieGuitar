@@ -31,7 +31,7 @@
 #include <stdbool.h>
 
 #include "shell.h"
-#include "util.h"
+#include "shell_util.h"
 
 /******************************************************************************/
 extern ShellCommand const _commands_start;
