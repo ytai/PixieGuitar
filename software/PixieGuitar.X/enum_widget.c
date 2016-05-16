@@ -3,17 +3,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-static unsigned mod(int a, int b) {
-    int r = a % b;
-    return r < 0 ? r + b : r;
-}
-
-static int limit(int a, int min, int max) {
-  assert(max >= min);
-  if (a < min) return min;
-  if (a > max) return max;
-  return a;
-}
+#include "util.h"
 
 static bool EnumWidgetOnTick(Widget * instance,
                              GfxRect const * region,

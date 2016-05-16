@@ -3,6 +3,7 @@
 #include <assert.h>
 
 #include "display.h"
+#include "util.h"
 
 static bool VerticalWidgetListOnTick(Widget * instance,
                                      GfxRect const * region,
@@ -15,8 +16,8 @@ static bool VerticalWidgetListOnTick(Widget * instance,
 
   if (!me->_child_active) {
     if (knob_turn_delta && me->_children_count) {
-      me->_highlighted_child = (me->_highlighted_child + (size_t) knob_turn_delta) %
-                               me->_children_count;
+      me->_highlighted_child = mod(me->_highlighted_child + knob_turn_delta,
+                                   me->_children_count);
     }
     knob_turn_delta = 0;
 
