@@ -12,5 +12,10 @@ void DrawBarGraph(GfxRect const * region,
                   Rgb565 fg_color,
                   Rgb565 bg_color);
 
+void DrawVerticalVolumeBar(GfxRect const * region,
+                           uint16_t vol,
+                           Rgb565 fg_color,
+                           Rgb565 bg_color);
+
 #endif  // CHART_H
 

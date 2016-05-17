@@ -119,7 +119,7 @@ void AudioProcAnalyzePitch(int16_t * samples,
   SquareMagnitudeCplx(ANALOG_BUFFER_LEN / 2, complex_buf, samples);
 
   // Harmonic suppression.
-  for (int i = 511; i >= 0; --i) {
+  for (int i = ANALOG_BUFFER_LEN / 2 - 1; i >= 0; --i) {
     samples[i] -= samples[i / 2] / 2;
     if (samples[i] < 0) samples[i] = 0;
   }
@@ -129,5 +129,16 @@ void AudioProcAnalyzePitch(int16_t * samples,
   *full_buckets = *raw_buckets + PITCH_COUNT;
   *octave_buckets = *full_buckets + BUCKET_COUNT;
   Bucket(samples, *raw_buckets, *full_buckets, *octave_buckets);
+}
+
+uint16_t AudioProcPower(int16_t const * samples) {
+  uint32_t total = 0;
+  unsigned i = ANALOG_BUFFER_LEN;
+  while (i--) {
+    int16_t sample = *samples++;
+    // TODO: Can optimize significantly using MAC.
+    total += ((int32_t) sample * sample) >> 15;
+  }
+  return total >> ANALOG_LOG2_BUFFER_LEN;
 }
 

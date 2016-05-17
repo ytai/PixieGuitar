@@ -42,9 +42,12 @@ static void DemoAppOnTick(App * instance,
 
   if (knob_press_delta < 0) AppPostCommand(AppCommandPop());
 
+  uint16_t power;
   int16_t * bucket_pitch;
   int16_t * bucket_full;
   int16_t * bucket_octave;
+
+  power = AudioProcPower(audio_samples);
 
   AudioProcAnalyzePitch(audio_samples,
                         app->knob_turn,
@@ -93,7 +96,7 @@ static void DemoAppOnTick(App * instance,
 
   {
     GfxRect sub;
-    GfxSubRegion(region, 0, 48, region->w, 32, &sub);
+    GfxSubRegion(region, 0, 56, 24, 32, &sub);
     DrawBarGraph(&sub,
                  (uint16_t const *) bucket_full,
                  BUCKET_COUNT,
@@ -104,13 +107,22 @@ static void DemoAppOnTick(App * instance,
 
   {
     GfxRect sub;
-    GfxSubRegion(region, 0, 80, region->w, 32, &sub);
+    GfxSubRegion(region, 32, 56, 24, 32, &sub);
     DrawBarGraph(&sub,
                  (uint16_t const *) bucket_octave,
                  BUCKET_COUNT,
                  0,
                  RGB565_RED,
                  RGB565_BLACK);
+  }
+
+  {
+    GfxRect sub;
+    GfxSubRegion(region, 64, 56, 10, 32, &sub);
+    DrawVerticalVolumeBar(&sub,
+                          power >> 5,
+                          RGB565_BLUE,
+                          RGB565_BLACK);
   }
 }
 
