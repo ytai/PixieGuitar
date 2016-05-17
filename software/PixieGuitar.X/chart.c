@@ -37,3 +37,14 @@ void DrawVerticalVolumeBar(GfxRect const * region,
   GfxFillRect(region, 0, 0, region->w, region->h - vol, bg_color);
   GfxFillRect(region, 0, region->h - vol, region->w, vol, fg_color);
 }
+
+void DrawHorizontalVolumeBar(GfxRect const * region,
+                             uint16_t vol,
+                             Rgb565 fg_color,
+                             Rgb565 bg_color) {
+  assert(region);
+
+  if (vol > region->w) vol = region->w;
+  GfxFillRect(region, 0, 0, vol, region->h, fg_color);
+  GfxFillRect(region, vol, 0, region->w - vol, region->h, bg_color);
+}

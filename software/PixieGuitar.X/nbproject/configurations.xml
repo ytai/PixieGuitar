@@ -61,6 +61,7 @@
       <itemPath>util.h</itemPath>
       <itemPath>palette.h</itemPath>
       <itemPath>chart.h</itemPath>
+      <itemPath>spinner_app.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -115,6 +116,7 @@
       <itemPath>shell_util.c</itemPath>
       <itemPath>palette.c</itemPath>
       <itemPath>chart.c</itemPath>
+      <itemPath>spinner_app.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

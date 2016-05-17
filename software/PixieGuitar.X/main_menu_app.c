@@ -8,9 +8,11 @@
 #include "demo_app.h"
 #include "power.h"
 #include "rainbow_app.h"
+#include "spinner_app.h"
 
 static DemoApp demo_app;
 static RainbowApp rainbow_app;
+static SpinnerApp spinner_app;
 
 static void MainMenuAppOnCommand(App * app, AppCommand const cmd) {
   switch (cmd.cmd) {
@@ -31,9 +33,9 @@ App * MainMenuAppInit(MainMenuApp * instance) {
   char const * const strings[] = {
     "First choice",
     "Second choice",
-    "Launch App",
-    "Rainbow Test",
-    "Fifth choice",
+    "Demo",
+    "Rainbow",
+    "Spinner",
     "Sixth choice",
     "Seventh choice",
     "Power off",
@@ -52,6 +54,7 @@ App * MainMenuAppInit(MainMenuApp * instance) {
         RGB565_WHITE,
         i == 2 ? AppCommandPush(DemoAppInit(&demo_app))  :
         i == 3 ? AppCommandPush(RainbowAppInit(&rainbow_app)) :
+        i == 4 ? AppCommandPush(SpinnerAppInit(&spinner_app)) :
         i == 7 ? (AppCommand) { APP_CMD_POWER_OFF } :
                  AppCommandNop());
   }
