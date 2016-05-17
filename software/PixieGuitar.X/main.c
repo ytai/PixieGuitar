@@ -28,8 +28,6 @@ int main(int argc, char** argv) {
 
   ModuleInit();
   I2cInit();
-  ChainInit();
-
   ShellTaskInit();
   AppTaskInit(MainMenuAppInit(&main_menu_app));
 

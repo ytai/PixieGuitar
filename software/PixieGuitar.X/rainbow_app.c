@@ -24,8 +24,6 @@ static void RainbowAppOnResume(App * instance) {
   app->prev_tilt = 0x7fff;
 }
 
-static uint8_t chain[10 * 3];
-
 static void (RainbowAppOnTick) (App * instance,
                                 GfxRect const * region,
                                 int16_t * audio_samples,
@@ -37,28 +35,22 @@ static void (RainbowAppOnTick) (App * instance,
 
   RainbowApp * app = (RainbowApp *) instance;
 
-  uint8_t * p = &chain[0];
-
   uint8_t brightness = app->brightness_widget.val * 255 / 100;
-
   int16_t delta_tilt = app->prev_tilt == 0x7FFF ? 0 : tilt - app->prev_tilt;
 
   if (delta_tilt > 5) {
     // Lightning strike!
-    memset(chain, brightness, sizeof(chain));
+    for (unsigned i = 0; i < 10; ++i) {
+      AppSetPixel(i, RGB888(brightness, brightness, brightness));
+    }
   } else {
     uint8_t c = app->frame_count;
     for (unsigned i = 0; i < 10; ++i) {
       c += app->diversity_widget.val;
-      Rgb888 color = PaletteGetRgb888(app->palette_widget.val, c);
-      color = Rgb888Scale(color, brightness);
-      *p++ = RGB888_R(color);
-      *p++ = RGB888_G(color);
-      *p++ = RGB888_B(color);
+      AppSetPixel(i, Rgb888Scale(PaletteGetRgb888(app->palette_widget.val, c),
+                                 brightness));
     }
   }
-
-  ChainWrite(chain, sizeof(chain));
 
   app->frame_count += app->speed_widget.val;
   app->prev_tilt = tilt;

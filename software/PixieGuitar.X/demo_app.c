@@ -19,20 +19,6 @@
 #include "sync.h"
 #include "time.h"
 
-static uint8_t pixie_buf[30];
-
-static void PixieClear() {
-  memset(pixie_buf, 0, sizeof(pixie_buf));
-}
-
-static void PixieSetColor(unsigned index, uint8_t hue, uint8_t brightness) {
-  index *= 3;
-  Rgb888 c = Hsv2Rgb888((uint16_t) hue * 64, 0xFF, brightness);
-  pixie_buf[index + 0] = RGB888_R(c);
-  pixie_buf[index + 1] = RGB888_G(c);
-  pixie_buf[index + 2] = RGB888_B(c);
-}
-
 static uint16_t area[16][16];
 
 typedef struct {
@@ -87,9 +73,10 @@ static void DemoAppOnTick(App * instance,
   }
 
   if (max_volume > 255) max_volume = 255;
-  PixieClear();
-  PixieSetColor(PrngGenerate8() % 10, max_index, max_volume);
-  ChainWrite(pixie_buf, sizeof(pixie_buf));
+  AppSetPixel(PrngGenerate8() % 10,
+              Hsv2Rgb888((uint16_t) max_index * (1536 / BUCKET_COUNT),
+                         0xFF,
+                         max_volume));
 
   if (force_redraw) {
     GfxFill(region, RGB565(0, 0, 0));

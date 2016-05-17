@@ -47,5 +47,7 @@ AppCommand AppCommandNop();
 
 void AppPostCommand(AppCommand cmd);
 
+void AppSetPixel(unsigned index, Rgb888 color);
+
 #endif  // APP_H
 

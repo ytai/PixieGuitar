@@ -3,12 +3,14 @@
 #include <assert.h>
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <FreeRTOS.h>
 #include <task.h>
 
 #include "analog.h"
 #include "audio_proc.h"
+#include "chain.h"
 #include "display.h"
 #include "gfx.h"
 #include "imu.h"
@@ -38,6 +40,8 @@ static void * command_queue;
 static unsigned tick_mask_count = 0;
 
 static TitleBar title_bar;
+
+static uint8_t chain[30];
 
 static inline float clamp(float value, float min, float max) {
   if (value > max) return max;
@@ -199,6 +203,7 @@ static void Tick(int16_t * audio_buffer) {
   region.y = 16;
   region.h = DISPLAY_HEIGHT - 16;
 
+  memset(chain, 0, sizeof(chain));
   active_app->OnTick(active_app,
                      &region,
                      audio_buffer,
@@ -206,6 +211,7 @@ static void Tick(int16_t * audio_buffer) {
                      knob_turn_delta,
                      knob_press_delta,
                      force_redraw);
+  ChainWrite(chain, sizeof(chain));
   force_redraw = false;
 }
 
@@ -234,6 +240,7 @@ static void AppTask(void * p) {
   PrngInit();
   TitleBarInit(&title_bar);
   AnalogInit();
+  ChainInit();
   KnobInit();
   ImuInit();
   ImuOn();
@@ -278,4 +285,12 @@ void AppPostCommand(AppCommand cmd) {
   if (cmd.cmd == CMD_NOP) return;
   Error e = QueuePushBack(command_queue, &cmd);
   assert(e == ERROR_NONE);
+}
+
+void AppSetPixel(unsigned index, Rgb888 color) {
+  assert(index < 10);
+  index *= 3;
+  chain[index++] = RGB888_R(color);
+  chain[index++] = RGB888_G(color);
+  chain[index++] = RGB888_B(color);
 }
