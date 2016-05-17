@@ -129,9 +129,17 @@ static void Tick(int16_t * audio_buffer) {
   }
 
   int16_t acc[3] = { 0, 0, 0 };
-  ImuRead(acc);
-  int16_t neck_tilt = atan2f(acc[1], -acc[0]) * 57.29577951308232f + 0.5f;
-  int16_t screen_tilt = atan2f(acc[2], -acc[0]) * 57.29577951308232f+ 0.5f;
+  TIMEOUT(2) {
+    Error e = ImuRead(acc);
+    assert(e == ERROR_NONE);
+  }
+
+  float x = acc[0];
+  float y = acc[1];
+  float z = acc[2];
+  float norm = sqrtf(x*x + y*y + z*z);
+  int16_t neck_tilt = asinf(y / norm) * 57.29577951308232f + 0.5f;
+  int16_t screen_tilt = asinf(z / norm) * 57.29577951308232f + 0.5f;
 
   int8_t knob_turn_delta = 0;
   int8_t knob_press_delta = 0;
@@ -165,16 +173,14 @@ static void Tick(int16_t * audio_buffer) {
   GfxRect region = { 0, 0, DISPLAY_WIDTH, 16 };
 
   // Handle screen flipping. Screen should be flipped if the screen tilt angle
-  // is > +/-25 AND the neck tilt is between -60 to 60 (with +/-5 hysteresis).
+  // is > 25 (with +/-5 hysteresis).
   if (screen_flipped) {
-    if ((screen_tilt > -20 && screen_tilt < 20) ||
-        (neck_tilt < -65 || neck_tilt > 65)) {
+    if (screen_tilt < 20) {
       screen_flipped = false;
       force_redraw = true;
     }
   } else {
-    if ((screen_tilt < -30 || screen_tilt > 30) &&
-        (neck_tilt > -55 && neck_tilt < 55)) {
+    if (screen_tilt > 30) {
       screen_flipped = true;
       force_redraw = true;
     }
