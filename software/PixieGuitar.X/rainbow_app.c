@@ -1,6 +1,7 @@
 #include "rainbow_app.h"
 
 #include <assert.h>
+#include <string.h>
 
 #include "chain.h"
 #include "gfx.h"
@@ -65,6 +66,8 @@ static void (RainbowAppOnTick) (App * instance,
 
 App * RainbowAppInit(RainbowApp * instance) {
   assert(instance);
+
+  memset(instance, 0, sizeof(RainbowApp));
 
   App * app = &instance->app;
   app->title = "Rainbow";

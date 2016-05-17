@@ -19,22 +19,10 @@
 #include "sync.h"
 #include "time.h"
 
-static uint16_t area[16][16];
-
-typedef struct {
-  App app;
-  uint8_t knob_turn;
-  bool knob_pressed;
-} DemoApp;
-
 static uint16_t DemoAppOnStart(App * instance) {
   DemoApp * app = (DemoApp *) instance;
   app->knob_turn = 1;
   app->knob_pressed = false;
-
-  for (unsigned i = 0; i < 16; ++i)
-    for (unsigned j = 0; j < 16; ++j)
-      area[i][j] = RGB565(0xff, 0xff, 0xff);
 
   return APP_EV_MASK_AUDIO |
          APP_EV_MASK_KNOB;
@@ -128,13 +116,13 @@ static void DemoAppOnTick(App * instance,
   }
 }
 
-static DemoApp demo_app;
+App * DemoAppInit(DemoApp * instance) {
+  assert(instance);
 
-App * DemoAppInit() {
-  memset(&demo_app, 0, sizeof(demo_app));
-  demo_app.app.title = "Demo Application";
-  demo_app.app.OnStart = DemoAppOnStart;
-  demo_app.app.OnTick = DemoAppOnTick;
-  return &demo_app.app;
+  memset(instance, 0, sizeof(DemoApp));
+  instance->app.title = "Demo Application";
+  instance->app.OnStart = DemoAppOnStart;
+  instance->app.OnTick = DemoAppOnTick;
+  return &instance->app;
 }
 

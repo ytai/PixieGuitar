@@ -9,6 +9,7 @@
 #include "power.h"
 #include "rainbow_app.h"
 
+static DemoApp demo_app;
 static RainbowApp rainbow_app;
 
 static void MainMenuAppOnCommand(App * app, AppCommand const cmd) {
@@ -25,9 +26,7 @@ static void MainMenuAppOnCommand(App * app, AppCommand const cmd) {
 App * MainMenuAppInit(MainMenuApp * instance) {
   assert(instance);
 
-#define WHITE RGB565(0xFF, 0xFF, 0xFF)
-#define BLACK RGB565(0x00, 0x00, 0x00)
-#define GRAY  RGB565(0xC0, 0xC0, 0xC0)
+  memset(instance, 0, sizeof(MainMenuApp));
 
   char const * const strings[] = {
     "First choice",
@@ -47,11 +46,11 @@ App * MainMenuAppInit(MainMenuApp * instance) {
         strings[i],
         DISPLAY_WIDTH,
         16,
-        BLACK,
+        RGB565_BLACK,
         Hsv2Rgb565(h, 0xFF, 0x80),
-        GRAY,
-        WHITE,
-        i == 2 ? AppCommandPush(DemoAppInit())  :
+        RGB565_LIGHT_GRAY,
+        RGB565_WHITE,
+        i == 2 ? AppCommandPush(DemoAppInit(&demo_app))  :
         i == 3 ? AppCommandPush(RainbowAppInit(&rainbow_app)) :
         i == 7 ? (AppCommand) { APP_CMD_POWER_OFF } :
                  AppCommandNop());
