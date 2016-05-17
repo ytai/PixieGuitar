@@ -18,6 +18,7 @@
 #include "prng.h"
 #include "sync.h"
 #include "time.h"
+#include "chart.h"
 
 static uint16_t DemoAppOnStart(App * instance) {
   DemoApp * app = (DemoApp *) instance;
@@ -82,37 +83,34 @@ static void DemoAppOnTick(App * instance,
   {
     GfxRect sub;
     GfxSubRegion(region, 0, 16, region->w, 32, &sub);
-    for (unsigned i = 0; i < PITCH_COUNT; ++i) {
-      int16_t y = bucket_pitch[i];
-      if (y < 0) y = 0;
-      if (y > 32) y = 32;
-      GfxDrawVerticalLine(&sub, i, 0, 32 - y, RGB565(0x00, 0x00, 0x00));
-      GfxDrawVerticalLine(&sub, i, 32 - y, y, RGB565(0x00, 0xff, 0x00));
-    }
+    DrawBarGraph(&sub,
+                 (uint16_t const *) bucket_pitch,
+                 PITCH_COUNT,
+                 0,
+                 RGB565_GREEN,
+                 RGB565_BLACK);
   }
 
   {
     GfxRect sub;
     GfxSubRegion(region, 0, 48, region->w, 32, &sub);
-    for (unsigned i = 0; i < BUCKET_COUNT; ++i) {
-      int16_t y = bucket_full[i];
-      if (y < 0) y = 0;
-      if (y > 32) y = 32;
-      GfxDrawVerticalLine(&sub, i, 0, 32 - y, RGB565(0x00, 0x00, 0x00));
-      GfxDrawVerticalLine(&sub, i, 32 - y, y, RGB565(0xff, 0xff, 0x00));
-    }
+    DrawBarGraph(&sub,
+                 (uint16_t const *) bucket_full,
+                 BUCKET_COUNT,
+                 0,
+                 RGB565_YELLOW,
+                 RGB565_BLACK);
   }
 
   {
     GfxRect sub;
     GfxSubRegion(region, 0, 80, region->w, 32, &sub);
-    for (unsigned i = 0; i < BUCKET_COUNT; ++i) {
-      int16_t y = bucket_octave[i];
-      if (y < 0) y = 0;
-      if (y > 32) y = 32;
-      GfxDrawVerticalLine(&sub, i, 0, 32 - y, RGB565(0x00, 0x00, 0x00));
-      GfxDrawVerticalLine(&sub, i, 32 - y, y, RGB565(0xff, 0x00, 0x00));
-    }
+    DrawBarGraph(&sub,
+                 (uint16_t const *) bucket_octave,
+                 BUCKET_COUNT,
+                 0,
+                 RGB565_RED,
+                 RGB565_BLACK);
   }
 }
 
