@@ -142,3 +142,17 @@ uint16_t AudioProcPower(int16_t const * samples) {
   return total >> ANALOG_LOG2_BUFFER_LEN;
 }
 
+char const * const full_bucket_names[BUCKET_COUNT] = {
+  "E1-F#1", "F#1-G#1", "G#1-A#1", "A#1-C2", "C2-D2", "D2-E2",
+  "E2-F#2", "F#2-G#2", "G#2-A#2", "A#2-C3", "C3-D3", "D3-E3",
+  "E3-F#3", "F#3-G#3", "G#3-A#3", "A#3-C4", "C4-D4", "D4-E4",
+};
+
+char const * const octave_bucket_names[BUCKET_COUNT] = {
+  "E", "E+", "F", "F+",
+  "F#", "F#+", "G", "G+",
+  "G#", "G#+", "A", "A+",
+  "A#", "A#+", "B", "B+",
+  "C", "C+", "C#", "C#+",
+  "D", "D+", "D#", "D#+"
+};

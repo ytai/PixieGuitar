@@ -16,5 +16,8 @@ void AudioProcAnalyzePitch(int16_t * samples,
 
 uint16_t AudioProcPower(int16_t const * samples);
 
+extern char const * const full_bucket_names[BUCKET_COUNT];
+extern char const * const octave_bucket_names[BUCKET_COUNT];
+
 #endif  // AUDIO_PROC_H
 

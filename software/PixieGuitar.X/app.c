@@ -259,7 +259,7 @@ static void AppTask(void * p) {
 void AppTaskInit(App * main_app) {
   command_queue = QueueCreate(4, sizeof(AppCommand));
 
-  xTaskCreate(AppTask, "app", configMINIMAL_STACK_SIZE + 200, main_app, 2, &app_task);
+  xTaskCreate(AppTask, "app", configMINIMAL_STACK_SIZE + 400, main_app, 2, &app_task);
   assert(app_task);
 }
 

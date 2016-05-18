@@ -6,6 +6,7 @@
 #include "app_cmd.h"
 #include "display.h"
 #include "demo_app.h"
+#include "fireworks_app.h"
 #include "power.h"
 #include "rainbow_app.h"
 #include "spinner_app.h"
@@ -13,6 +14,7 @@
 static DemoApp demo_app;
 static RainbowApp rainbow_app;
 static SpinnerApp spinner_app;
+static FireworksApp fireworks_app;
 
 static void MainMenuAppOnCommand(App * app, AppCommand const cmd) {
   switch (cmd.cmd) {
@@ -32,7 +34,7 @@ App * MainMenuAppInit(MainMenuApp * instance) {
 
   char const * const strings[] = {
     "First choice",
-    "Second choice",
+    "Fireworks",
     "Demo",
     "Rainbow",
     "Spinner",
@@ -52,6 +54,7 @@ App * MainMenuAppInit(MainMenuApp * instance) {
         Hsv2Rgb565(h, 0xFF, 0x80),
         RGB565_LIGHT_GRAY,
         RGB565_WHITE,
+        i == 1 ? AppCommandPush(FireworksAppInit(&fireworks_app))  :
         i == 2 ? AppCommandPush(DemoAppInit(&demo_app))  :
         i == 3 ? AppCommandPush(RainbowAppInit(&rainbow_app)) :
         i == 4 ? AppCommandPush(SpinnerAppInit(&spinner_app)) :
