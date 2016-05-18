@@ -10,6 +10,7 @@
 #include "power.h"
 #include "rainbow_app.h"
 #include "spinner_app.h"
+#include "base_macros.h"
 
 static DemoApp demo_app;
 static RainbowApp rainbow_app;
@@ -33,18 +34,17 @@ App * MainMenuAppInit(MainMenuApp * instance) {
   memset(instance, 0, sizeof(MainMenuApp));
 
   char const * const strings[] = {
-    "First choice",
     "Fireworks",
-    "Demo",
     "Rainbow",
     "Spinner",
-    "Sixth choice",
-    "Seventh choice",
+    "Demo",
+    "Tuner",
+    "Visual Metronome",
     "Power off",
   };
 
-  for (size_t i = 0; i < 8; ++i) {
-    uint16_t h = 1535 * i / 8;
+  for (size_t i = 0; i < 7; ++i) {
+    uint16_t h = 1535 * i / 7;
     instance->widgets[i] = TextWidgetInit(
         &instance->texts[i],
         strings[i],
@@ -54,16 +54,17 @@ App * MainMenuAppInit(MainMenuApp * instance) {
         Hsv2Rgb565(h, 0xFF, 0x80),
         RGB565_LIGHT_GRAY,
         RGB565_WHITE,
-        i == 1 ? AppCommandPush(FireworksAppInit(&fireworks_app))  :
-        i == 2 ? AppCommandPush(DemoAppInit(&demo_app))  :
-        i == 3 ? AppCommandPush(RainbowAppInit(&rainbow_app)) :
-        i == 4 ? AppCommandPush(SpinnerAppInit(&spinner_app)) :
-        i == 7 ? (AppCommand) { APP_CMD_POWER_OFF } :
+        i == 0 ? AppCommandPush(FireworksAppInit(&fireworks_app))  :
+        i == 1 ? AppCommandPush(RainbowAppInit(&rainbow_app)) :
+        i == 2 ? AppCommandPush(SpinnerAppInit(&spinner_app)) :
+        i == 3 ? AppCommandPush(DemoAppInit(&demo_app))  :
+        i == 6 ? (AppCommand) { APP_CMD_POWER_OFF } :
                  AppCommandNop());
   }
 
   Widget * widget = VerticalWidgetListInit(&instance->list,
-                                           instance->widgets, 8);
+                                           instance->widgets,
+                                           ARRAY_LEN(instance->widgets));
 
   return WidgetAppInit(&instance->app,
                        "Main Menu",
