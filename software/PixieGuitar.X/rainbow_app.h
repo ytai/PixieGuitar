@@ -1,7 +1,7 @@
 #ifndef RAINBOW_APP_H
 #define	RAINBOW_APP_H
 
-#include <stdbool.h>
+#include <stdint.h>
 
 #include "app.h"
 #include "enum_widget.h"
