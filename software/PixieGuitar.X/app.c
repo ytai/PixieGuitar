@@ -15,6 +15,7 @@
 #include "gfx.h"
 #include "imu.h"
 #include "knob.h"
+#include "power.h"
 #include "prng.h"
 #include "sync.h"
 #include "ticker.h"
@@ -126,6 +127,30 @@ static void Tick(int16_t * audio_buffer) {
 
   assert(active_app);
 
+  float vbat = AnalogGetVbat();
+  // Very simplistic SoC model: assume that the voltage drops linearly with
+  // SoC between 4.1V and 3.6V per cell.
+  float soc = clamp(vbat - 7.2f, 0, 1) * 100;
+
+  // To avoid toggling when we're on a borderline voltage, we implement some
+  // hysteresis on the SoC: if the new SoC is within 1% of the previously
+  // reported value, we leave it unchanged.
+  uint8_t soc_percent;
+  float dsoc = soc - prev_soc;
+  if (abs(dsoc) < 1) {
+    soc_percent = prev_soc;
+  } else {
+    soc_percent = (uint8_t) (soc + 0.5f);
+    prev_soc = soc_percent;
+  }
+
+  // Power off if the battery is empty. Do not power off if there is no battery
+  // (which means we're powered externally).
+  if (vbat > 0.5f && soc_percent == 0) {
+    PowerOff();
+    return;
+  }
+
   if (active_app->_flags & APP_EV_MASK_AUDIO) {
     assert(audio_buffer);
   } else {
@@ -155,23 +180,6 @@ static void Tick(int16_t * audio_buffer) {
     bool pressed = KnobIsPressed();
     knob_press_delta = (pressed ? 1 : 0) - (knob_prev_pressed ? 1 : 0);
     knob_prev_pressed = pressed;
-  }
-
-  float vbat = AnalogGetVbat();
-  // Very simplistic SoC model: assume that the voltage drops linearly with
-  // SoC between 4.1V and 3.6V per cell.
-  float soc = clamp(vbat - 7.2f, 0, 1) * 100;
-
-  // To avoid toggling when we're on a borderline voltage, we implement some
-  // hysteresis on the SoC: if the new SoC is within 1% of the previously
-  // reported value, we leave it unchanged.
-  uint8_t soc_percent;
-  float dsoc = soc - prev_soc;
-  if (abs(dsoc) < 1) {
-    soc_percent = prev_soc;
-  } else {
-    soc_percent = (uint8_t) (soc + 0.5f);
-    prev_soc = soc_percent;
   }
 
   GfxRect region = { 0, 0, DISPLAY_WIDTH, 16 };
