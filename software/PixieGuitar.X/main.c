@@ -10,12 +10,14 @@
 #include "clock.h"
 #include "demo_app.h"
 #include "i2c.h"
+#include "main_menu_app.h"
 #include "module.h"
 #include "power.h"
 #include "shell_task.h"
-#include "main_menu_app.h"
+#include "splash_app.h"
 
 static MainMenuApp main_menu_app;
+static SplashApp splash_app;
 
 int main(int argc, char** argv) {
   PowerOn();
@@ -29,7 +31,12 @@ int main(int argc, char** argv) {
   ModuleInit();
   I2cInit();
   ShellTaskInit();
-  AppTaskInit(MainMenuAppInit(&main_menu_app));
+
+  App * first = MainMenuAppInit(&main_menu_app);
+  // Comment out the next line to skip splash.
+  first = SplashAppInit(&splash_app, first);
+
+  AppTaskInit(first);
 
   vTaskStartScheduler();
 }

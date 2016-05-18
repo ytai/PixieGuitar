@@ -63,6 +63,7 @@
       <itemPath>chart.h</itemPath>
       <itemPath>spinner_app.h</itemPath>
       <itemPath>fireworks_app.h</itemPath>
+      <itemPath>splash_app.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -119,6 +120,7 @@
       <itemPath>chart.c</itemPath>
       <itemPath>spinner_app.c</itemPath>
       <itemPath>fireworks_app.c</itemPath>
+      <itemPath>splash_app.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
