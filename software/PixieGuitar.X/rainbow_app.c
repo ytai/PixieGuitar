@@ -39,7 +39,7 @@ static void (RainbowAppOnTick) (App * instance,
   uint8_t brightness = app->brightness_widget.val * 255 / 100;
   int16_t delta_tilt = app->prev_tilt == 0x7FFF ? 0 : tilt - app->prev_tilt;
 
-  if (delta_tilt > 5) {
+  if (delta_tilt > 10) {
     // Lightning strike!
     for (unsigned i = 0; i < 10; ++i) {
       AppSetPixel(i, RGB888(brightness, brightness, brightness));

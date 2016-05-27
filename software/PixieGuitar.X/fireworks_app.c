@@ -107,7 +107,7 @@ static void (FireworksAppOnTick) (App * instance,
     leds[i] = temp;
   }
 
-  if (delta_tilt > 5) {
+  if (delta_tilt > 10) {
     // Lightning strike!
     for (unsigned i = 0; i < 10; ++i) {
       AppSetPixel(i, RGB888(brightness, brightness, brightness));
